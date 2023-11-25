@@ -2324,6 +2324,7 @@ progress {
 .timeline-zigzag .timeline-item,
 .timeline-vertical .timeline-item {
   --falcon-gutter-x: 0;
+  background-color: #F5F1EE;
 }
 
 .g-0,
@@ -10790,6 +10791,7 @@ html[data-bs-theme=dark] .tox .tox-dialog__footer .tox-button--secondary,
 }
 
 .w-100 {
+  background-color: rgb(249, 250, 253);
   width: 100% !important;
 }
 
@@ -12245,6 +12247,7 @@ html[data-bs-theme=dark] .tox .tox-dialog__footer .tox-button--secondary,
 
 .ps-1 {
   padding-left: 0.25rem !important;
+  color: #866847;
 }
 
 .ps-2 {
@@ -25795,8 +25798,8 @@ html[dir=rtl] .googlemap .gm-style-iw.gm-style-iw-c button[title=Close] {
   border: 0 !important;
 }
 .management-calendar .calendar-outline .fc-daygrid-bg-harness {
-  height: 38px;
-  top: -2px;
+  height: 3px;
+  top: -2px;  
 }
 @media (min-width: 768px) {
   .management-calendar .calendar-outline .fc-daygrid-bg-harness {
@@ -27096,6 +27099,7 @@ h5, .h5 {
   flex-direction: column;
   margin: 0 -1rem;
   background-image: none;
+  color: #866847;
 }
 .navbar-vertical + .content .navbar-top .navbar-toggler {
   display: -webkit-box;
@@ -32396,3 +32400,12 @@ html[data-bs-theme=dark] .bg-priority-low:checked {
   width: 13.75rem;
 }
 /*# sourceMappingURL=theme.css.map */
+
+
+.mi-imagen {
+  background-size: cover; /* Ajusta según tus necesidades */
+  background-position: center center; /* Ajusta según tus necesidades */
+  width: 30px; /* Ajusta según tus necesidades */
+  height: 30px; /* Ajusta según tus necesidades */
+  border-radius: 50%; /* Hace que la imagen sea circular, ajusta según tus necesidades */
+}

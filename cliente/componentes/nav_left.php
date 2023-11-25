@@ -17,13 +17,16 @@
             </a>
           </div>
           <div class="collapse navbar-collapse" id="navbarVerticalCollapse">
-            <div class="navbar-vertical-content scrollbar">  
-            <ul class="navbar-nav flex-column mb-3" id="navbarVerticalNav">            
-              <ul class="nav collapse show" id="dashboard">
-                    <li class="nav-item"><a class="nav-link" href="dashboard.php">
-                        <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Home</span>
-                        </div>
-                      </a>
+  <div class="navbar-vertical-content scrollbar">
+    <ul class="navbar-nav flex-column mb-3" id="navbarVerticalNav">
+      <ul class="nav collapse show" id="dashboard">
+        <li class="nav-item">
+          <a class="nav-link" href="dashboard.php">
+            <div class="d-flex align-items-center">
+              <img src="./assets/images/logoS/Fondo_insco.png" alt="Descripción de la imagen" width="30" height="30" class="me-2"> 
+              <span class="nav-link-text ps-1">Home</span>
+            </div>
+          </a>
                       <!-- more inner pages-->
                     </li>
                     <?php if ($_SESSION['cursos']!="") {?>
