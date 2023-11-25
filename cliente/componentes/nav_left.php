@@ -23,7 +23,8 @@
         <li class="nav-item">
           <a class="nav-link" href="dashboard.php">
             <div class="d-flex align-items-center">
-              <img src="./assets/images/logoS/Fondo_insco.png" alt="Descripción de la imagen" width="30" height="30" class="me-2"> 
+            <img src="./assets/images/logoS/Fondo_insco.png" alt="Descripción de la imagen" width="30" height="30" class="me-2 custom-logo">
+
               <span class="nav-link-text ps-1">Home</span>
             </div>
           </a>
