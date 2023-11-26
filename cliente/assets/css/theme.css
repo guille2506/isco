@@ -311,9 +311,9 @@
   --falcon-dark-rgb: 11, 23, 39;
   --falcon-light-rgb: 213, 191,167;  
   /* -------------------------------- Font family ------------------------------- */
-  --falcon-font-sans-serif: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-  --falcon-font-monospace: "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  --falcon-font-base: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  --falcon-font-sans-serif: "Trebuchet MS", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  --falcon-font-monospace: "Trebuchet MS", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --falcon-font-base: "Trebuchet MS", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   /* -------------------------------- Border ------------------------------- */
   --falcon-global-border-style: solid;
   --falcon-border-color: #d8e2ef;
@@ -26307,6 +26307,7 @@ th {
 
 td .dropdown-toggle:after, td .dropdown-toggle:before {
   display: none;
+
 }
 
 .table-dashboard {
@@ -27200,7 +27201,8 @@ h5, .h5 {
   max-height: calc(100vh - var(--falcon-top-nav-height) - 1rem) !important;
 }
 .navbar-vertical .navbar-collapse {
-  background-color: var(--falcon-navbar-vertical-default-bg-color);
+  background-image: url(../images/logoS/Fondo_insco.png);
+  background-color: #F5F1EE;
 }
 .navbar-vertical .navbar-nav .nav-item .navbar-vertical-label-wrapper {
   min-height: 1.125rem;
@@ -27570,7 +27572,8 @@ h5, .h5 {
     width: 12.625rem;
   }
   .navbar-vertical.navbar-expand-xl .navbar-vertical-content {
-    width: 12.625rem;
+    background-image: url(./assets/images/logoS/Fondo_insco.png);
+    width: 12.625rem; 
     height: calc(100vh - var(--falcon-top-nav-height));
     padding: 0.5rem 0 0 0;
   }
@@ -32403,6 +32406,19 @@ html[data-bs-theme=dark] .bg-priority-low:checked {
 .custom-logo {
  background-image: url(../images/logoS/Fondo_insco.png);
  /* background-position: 50px 20px; */
+}
+
+/* .cContHeaderSectionCenter{
+  background-color: RGB(213, 191, 167);
+} */
+
+.calendarContMobile .cContHeader {
+  background-color: RGB(213, 191, 167);
+
+}
+
+element.style {
+  background-color: #000;
 }
 
 /*# sourceMappingURL=theme.css.map */
