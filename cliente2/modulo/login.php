@@ -509,7 +509,7 @@ if (!$err)
   //$_SESSION['cronograma']="cronograma.php?tema=131&curso=".$curso_id; 
   
   $_SESSION['encuesta_final']="encuesta_final.php?curso=".$curso_id."&tema=".$modulo5;
-  $_SESSION['certificados']="encuesta_final.php?curso=".$curso_id."&tema=".$modulo6;
+  $_SESSION['certificados']="certificados.php.php?curso=".$curso_id."&tema=".$modulo6;
   $_SESSION['valoracion']="ranking.php?curso=".$curso_id."&tema=".$modulo6;
  
   $_SESSION['foros']="foros.php?curso=".$curso_id;   

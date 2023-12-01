@@ -120,8 +120,8 @@
   <li class="nav-item px-2">
     <div class="theme-control-toggle fa-icon-wait">
       <input class="form-check-input ms-0 theme-control-toggle-input" id="themeControlToggle" type="checkbox" data-theme-control="theme" value="dark" />
-      <label class="mb-0 theme-control-toggle-label theme-control-toggle-light" for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left" title="Switch to light theme"><span class="fas fa-sun fs-0"></span></label>
-      <label class="mb-0 theme-control-toggle-label theme-control-toggle-dark" for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left" title="Switch to dark theme"><span class="fas fa-moon fs-0"></span></label>
+      <label class="mb-0 theme-control-toggle-label theme-control-toggle-light" for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left" title=""><span class="fas fa-sun fs-0"></span></label>
+      <label class="mb-0 theme-control-toggle-label theme-control-toggle-dark" for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left" title=""><span class="fas fa-moon fs-0"></span></label>
     </div>
   </li>
   <!--
@@ -137,9 +137,9 @@
         <div class="card-header">
           <div class="row justify-content-between align-items-center">
             <div class="col-auto">
-              <h6 class="card-header-title mb-0">Notifications</h6>
+              <h6 class="card-header-title mb-0">Notificaciones</h6>
             </div>
-            <div class="col-auto ps-0 ps-sm-3"><a class="card-link fw-normal" href="#">Mark all as read</a></div>
+            
           </div>
         </div>
         <div class="scrollbar-overlay" style="max-height:19rem">
@@ -176,58 +176,11 @@
               </a>
 
             </div>
-            <div class="list-group-title border-bottom">EARLIER</div>
-            <div class="list-group-item">
-              <a class="notification notification-flush" href="#!">
-                <div class="notification-avatar">
-                  <div class="avatar avatar-2xl me-3">
-                    <img class="rounded-circle" src="assets/img/icons/weather-sm.jpg" alt="" />
-
-                  </div>
-                </div>
-                <div class="notification-body">
-                  <p class="mb-1">The forecast today shows a low of 20&#8451; in California. See today's weather.</p>
-                  <span class="notification-time"><span class="me-2" role="img" aria-label="Emoji">🌤️</span>1d</span>
-
-                </div>
-              </a>
-
-            </div>
-            <div class="list-group-item">
-              <a class="border-bottom-0 notification-unread  notification notification-flush" href="#!">
-                <div class="notification-avatar">
-                  <div class="avatar avatar-xl me-3">
-                    <img class="rounded-circle" src="assets/img/logos/oxford.png" alt="" />
-
-                  </div>
-                </div>
-                <div class="notification-body">
-                  <p class="mb-1"><strong>University of Oxford</strong> created an event : "Causal Inference Hilary 2019"</p>
-                  <span class="notification-time"><span class="me-2" role="img" aria-label="Emoji">✌️</span>1w</span>
-
-                </div>
-              </a>
-
-            </div>
-            <div class="list-group-item">
-              <a class="border-bottom-0 notification notification-flush" href="#!">
-                <div class="notification-avatar">
-                  <div class="avatar avatar-xl me-3">
-                    <img class="rounded-circle" src="assets/img/team/10.jpg" alt="" />
-
-                  </div>
-                </div>
-                <div class="notification-body">
-                  <p class="mb-1"><strong>James Cameron</strong> invited to join the group: United Nations International Children's Fund</p>
-                  <span class="notification-time"><span class="me-2" role="img" aria-label="Emoji">🙋‍</span>2d</span>
-
-                </div>
-              </a>
-
-            </div>
+           
+           
           </div>
         </div>
-        <div class="card-footer text-center border-top"><a class="card-link d-block" href="app/social/notifications.html">View all</a></div>
+        <div class="card-footer text-center border-top"><a class="card-link d-block" href="<?php echo $_SESSION['notificaciones'];?>">Ver Màs</a></div>
       </div>
     </div>
 
@@ -332,11 +285,13 @@
     </a>
     <div class="dropdown-menu dropdown-caret dropdown-caret dropdown-menu-end py-0" aria-labelledby="navbarDropdownUser">
       <div class="bg-white dark__bg-1000 rounded-2 py-2">       
-        <a class="dropdown-item" href="#!">Profile &amp; account</a>
+        <!--
+          <a class="dropdown-item" href="#!">Mi cuenta</a>
         <a class="dropdown-item" href="#!">Feedback</a>
         <div class="dropdown-divider"></div>
         <a class="dropdown-item" href="#!">Settings</a>
-        <a class="dropdown-item" href="salir.php">Logout</a>
+-->
+        <a class="dropdown-item" href="salir.php">Salir</a>
       </div>
     </div>
   </li>

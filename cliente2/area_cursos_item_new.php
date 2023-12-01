@@ -13,7 +13,10 @@ function buscarvalor ($arraySuperior,$mValue){
     }
     return "nok";
 }
-
+// obtener id de la encuesta final
+// SELECT cm.id FROM `mdl_course_modules_completion` cmc ,mdl_course_modules cm WHERE cmc.userid=5 and cm.course=13 and cm.id=cmc.coursemoduleid and cm.instance=4; 
+// SELECT cm.id FROM mdl_course_modules cm WHERE cm.course=13 and instance=4; 
+//SELECT cm.id FROM mdl_course_modules cm WHERE cm.course=13 and instance=6; 
 $url = $_SESSION['url'].'v1/index.php/gesinpol_item_modulo';
 //var_dump($urlexternos);
 $header = [
@@ -168,7 +171,7 @@ if (!$err)
 echo "<pre>";
 print_r($res["items"]);
 echo "</pre>";
-die();
+//die();
 */
    $cuerpo="";
    $i=1;
@@ -186,14 +189,21 @@ die();
     $temafeedback=  array();
     $temafeedback_id=array();
     $temafeedback_url=array();
-
+    $temaassign=  array();
+    $temaassign_id=array();
+    $temaassign_url=array();
+  
+    $codigo_cuestionario=0;
+    $codigo_encuesta=0;
+    $codigo_tarea=0;
     $recurso0="";$recurso1="";$recurso2="";$recurso3="";$recurso4="";$recurso5="";$recurso6="";$recurso7="";
     foreach($res['items'] as $items_tema) {
 
       if ($items_tema['name']=="quiz"){
         $nombre="";$id="";
+        $codigo_cuestionario=$items_tema['instance'];
   $url = $_SESSION['url'].'v1/index.php/gesinpol_curso_quizvisble';	
-  $parametros="course=".$curso_enrolado."&id=".$items_tema['instance'];
+  $parametros="course=".$curso_enrolado."&id=".$items_tema['section'];
   //echo $parametros; //die();
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $url);
@@ -235,8 +245,9 @@ die();
 
 if ($items_tema['name']=="feedback"){
         $nombre="";$id="";
+        $codigo_encuesta=$items_tema['instance'];      
   $url = $_SESSION['url'].'v1/index.php/gesinpol_curso_feedbackvisble';	
-  $parametros="course=".$curso_enrolado."&id=".$items_tema['instance'];
+  $parametros="course=".$curso_enrolado."&id=".$items_tema['section'];
   //echo $parametros; //die();
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $url);
@@ -255,7 +266,12 @@ if ($items_tema['name']=="feedback"){
 
   $result = curl_exec($ch);
   $res    = json_decode($result, true);
-
+/*
+echo "<pre>";
+print_r($res["curso_feedback"]);
+echo "</pre>";
+//die();
+*/
   $err = curl_error($ch);
   curl_close($ch);
   if (!$err)
@@ -270,7 +286,49 @@ if ($items_tema['name']=="feedback"){
             $recurso7=$items_tema['name'];
   }
      }
+     if ($items_tema['name']=="assign"){
+      $nombre="";$id="";
+      $codigo_tarea=$items_tema['instance'];      
+$url = $_SESSION['url'].'v1/index.php/insco_curso_assignvisble';	
+$parametros="course=".$curso_enrolado."&id=".$items_tema['section'];
+//echo $parametros; //die();
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $url);
+curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+curl_setopt($ch, CURLOPT_FRESH_CONNECT, 1);
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+curl_setopt($ch, CURLOPT_POST, 1);
+//curl_setopt($ch, CURLOPT_POSTFIELDS,'user=admin01&pass=123456');
+curl_setopt($ch, CURLOPT_POSTFIELDS,$parametros);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+// pass header variable in curl method
+curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+curl_setopt($ch, CURLOPT_HEADER, false);
 
+$result = curl_exec($ch);
+$res    = json_decode($result, true);
+/*
+echo "<pre>";
+print_r($res["curso_assign"]);
+echo "</pre>";
+//die();
+*/
+$err = curl_error($ch);
+curl_close($ch);
+if (!$err)
+{ 				
+    foreach($res['curso_assign'] as $quiz) {
+          $nombre=$quiz['name'];
+          $id==$quiz['id'];
+          $temaassign[]['nombre'] = $nombre;
+          $temaassign_id[]['id'] = $id;
+          $temaassign_url[]['url'] = $url;
+          }
+          $recurso8=$items_tema['name'];
+}
+   }
         // nuevo para componente file de moodle 2023
         if ($items_tema['name']=="resource"){
             $nombre="";$id="";
@@ -645,7 +703,6 @@ die();
               <div class="row">
                 <div class="col-lg-8">
                   <h2><?php echo $curso_nombre;?></h2>
-                  <p class="mb-0">Documentation and examples for opt-in styling of tables with Falcon.</p><a class="btn btn-link btn-sm ps-0 mt-2" href="https://getbootstrap.com/docs/5.3/content/tables/" target="_blank">Tables on Bootstrap<span class="fas fa-chevron-right ms-1 fs--2"></span></a>
                 </div>
               </div>
             </div>
@@ -658,7 +715,7 @@ die();
             <div class="col-lg-8">
               <div class="card h-100">
                 <div class="card-header">
-                  <h5 class="mb-0">Visor: Selecione item a visualizar.</h5>
+                 <!-- <h5 class="mb-0">Visor: Selecione item a visualizar.</h5>-->
                 </div>
                 <div class="card-body bg-light">
                 <div class="ratio ratio-16x9">
@@ -671,7 +728,7 @@ die();
             <div class="col-lg-4">
               <div class="card h-100">
                 <div class="card-header">
-                  <h5 class="mb-0">Item</h5>
+                  <h5 class="mb-0">ACTIVIDADES</h5>
                 </div>
                 <div class="card-body bg-light">
                   <!-- aqui item -->
@@ -801,7 +858,7 @@ die();
                     </div>
                     <div class="ms-3 flex-shrink-1 flex-grow-1">
                       <h6 class="mb-1">
-                        <a class="stretched-link text-900 fw-semi-bold" onclick="getContenidosform(<?php echo $tema_id[$i]['id'];?>,<?php echo $_REQUEST['curso'];?>,<?php echo $_REQUEST['tema'];?>);"><?php echo $tema[$i]['nombre'];?> </a></h6>
+                        <a class="stretched-link text-900 fw-semi-bold" onclick="getContenidosMoodle(<?php echo $id_cuestionario;?>,<?php echo $_REQUEST['curso'];?>,'<?php echo $tipo;?>');"><?php echo $name_cuestionario;?> </a></h6>
                       <div class="fs--1"></div>
                       <div class="hover-actions end-0 top-50 translate-middle-y">
                           <?php if ($completado==1){?>
@@ -822,7 +879,7 @@ die();
                   <?php if ($recurso6=="quiz"){
                     for ( $i = 0; $i < count($temaquiz); $i++ ) {   
                       $url = $_SESSION['url'].'v1/index.php/gesinpol_empleado_progreso_modulo';
-                      $parametros="empleado=".$_SESSION['idmoodle'] ."&curso=".$_REQUEST['curso']."&tema=".$_REQUEST['tema']."&modulo=".$tematemaquiz_id[$i]['id'] ;
+                      $parametros="empleado=".$_SESSION['idmoodle'] ."&curso=".$_REQUEST['curso']."&tema=".$_REQUEST['tema']."&modulo=".$temaquiz_id[$i]['id'] ;
                       $res_completo = resulrow($url, $parametros);
                       $completado=0;
                       $idm=0;
@@ -831,22 +888,33 @@ die();
                         $completado = $value['completionstate'];  
                       }     
                       $url = $_SESSION['url'].'v1/index.php/gesinpol_empleado_sin_progreso_modulo';
-                      $parametros="curso=".$_REQUEST['curso']."&tema=".$_REQUEST['tema']."&modulo=".$temaresource_id[$i]['id'] ;
+                      $parametros="curso=".$_REQUEST['curso']."&tema=".$_REQUEST['tema']."&modulo=".$temaquiz[$i]['id'] ;
                       $res_completo = resulrow($url, $parametros);                         
                               
                       foreach ($res_completo["sin_completado"] as $value) {                                
                                 $idm= $value['idm'];                                
-                      }                 
+                      }       
+                      if ($codigo_cuestionario !=""){
+                        $url = $_SESSION['url'].'v1/index.php/insco_cuestionario_curso';
+                        $parametros="curso=".$_REQUEST['curso']."&quiz=". $codigo_cuestionario."&tema=". $_REQUEST['tema'];
+                        $res_cuestionario = resulrow($url, $parametros);                         
+                                
+                        foreach ($res_cuestionario["cuestionario"] as $value) {                                
+                                  $id_cuestionario= $value['id']; 
+                                  $name_cuestionario= $value['name'];  
+                                  $tipo="quiz";                                
+                        }  
+                      }                    
+                        // end cuestionario             
                       ?>
                   <div class="d-flex mb-3 hover-actions-trigger align-items-center">
                     <div class="file-thumbnail">
-                      <img class="border h-100 w-100 object-fit-cover rounded-2" src="assets/img/otro_icons/pdf.png" alt="">
+                    <img class="border h-100 w-100 object-fit-cover rounded-2" src="assets/img/otro_icons/png-transparent-student-higtest-thumbnail.png" alt="">
                     </div>
                     <div class="ms-3 flex-shrink-1 flex-grow-1">
                       <h6 class="mb-1">
-                        <a class="stretched-link text-900 fw-semi-bold" onclick="getContenidospdf(<?php echo $temaresource_id[$i]['id'];?>,<?php echo $_REQUEST['curso'];?>,'<?php echo $temaresource[$i]['nombre'];?>');"><?php echo $tematemaquiz[$i]['nombre'];?> 
-                        </a>
-                      </h6>
+                      <a class="stretched-link text-900 fw-semi-bold" onclick="getContenidosMoodle(<?php echo $id_cuestionario;?>,<?php echo $_REQUEST['curso'];?>,'<?php echo $tipo;?>');"><?php echo $name_cuestionario;?> </a></h6>
+                     </h6>
                       <div class="fs--1"></div>
                       <div class="hover-actions end-0 top-50 translate-middle-y">
                           <?php if ($completado==1){?>
@@ -864,6 +932,130 @@ die();
                   </div>
                   <hr class="text-200">
                   <?php }}?> 
+                  <?php if ($recurso7=="feedback"){
+                    for ( $i = 0; $i < count($temafeedback); $i++ ) {   
+                      $url = $_SESSION['url'].'v1/index.php/gesinpol_empleado_progreso_modulo';
+                      $parametros="empleado=".$_SESSION['idmoodle'] ."&curso=".$_REQUEST['curso']."&tema=".$_REQUEST['tema']."&modulo=".$temafeedback_id[$i]['id'] ;
+                      $res_completo = resulrow($url, $parametros);
+                      $completado=0;
+                      $idm=0;
+                      $idmc=0;
+                      foreach ($res_completo["completado"] as $value) {
+                        $completado = $value['completionstate'];  
+                      }     
+                      $url = $_SESSION['url'].'v1/index.php/gesinpol_empleado_sin_progreso_modulo';
+                      $parametros="curso=".$_REQUEST['curso']."&tema=".$_REQUEST['tema']."&modulo=".$temafeedback_id[$i]['id'] ;
+                      $res_completo = resulrow($url, $parametros);                         
+                              
+                      foreach ($res_completo["sin_completado"] as $value) {                                
+                                $idm= $value['idm'];                                
+                      }       
+                      if ($recurso7=="feedback"){
+                        //leer cuestionarios y encuesta
+                        // cuestionario
+                             
+                         // encuesta
+                         if ($codigo_encuesta !=""){
+                         $url = $_SESSION['url'].'v1/index.php/insco_encuesta_curso';
+                         $parametros="curso=".$_REQUEST['curso']."&encuesta=". $codigo_encuesta;
+                         $res_encuesta = resulrow($url, $parametros);                         
+                                 
+                         foreach ($res_encuesta["encuesta"] as $value) { 
+                                   $tipo="feedback";                               
+                                   $id_cuestionario= $value['id']; 
+                                   $name_cuestionario= $value['name'];                                
+                         } 
+                       }      
+                     }               
+                         // end encuesta             
+                      ?>
+                  <div class="d-flex mb-3 hover-actions-trigger align-items-center">
+                    <div class="file-thumbnail">
+                    <img class="border h-100 w-100 object-fit-cover rounded-2" src="assets/img/otro_icons/png-transparent-student-higtest-thumbnail.png" alt="">
+                    </div>
+                    <div class="ms-3 flex-shrink-1 flex-grow-1">
+                      <h6 class="mb-1">
+                      <a class="stretched-link text-900 fw-semi-bold" onclick="getContenidosMoodle(<?php echo $id_cuestionario;?>,<?php echo $_REQUEST['curso'];?>,'<?php echo $tipo;?>');"><?php echo $name_cuestionario;?> </a></h6>
+                     </h6>
+                      <div class="fs--1"></div>
+                      <div class="hover-actions end-0 top-50 translate-middle-y">
+                          <?php if ($completado==1){?>
+                            <a  class="btn btn-light border-300 btn-sm me-1 text-600" data-bs-toggle="tooltip" data-bs-placement="top"  download="Hecho" aria-label="Hecho" data-bs-original-title="Hecho">                                           
+                          <img src="assets/img/otro_icons/check-verde.png" alt="" width="15">                          
+                          </a>
+                        <?php }else{ ?>
+                          <a  class="btn btn-light border-300 btn-sm me-1 text-600" data-bs-toggle="tooltip" data-bs-placement="top" onclick="getHechovideo(<?php echo $_SESSION['idmoodle'];?>,<?php echo $idm;?>);" download="Marcar como Hecho" aria-label="Marcar como Hecho" data-bs-original-title="Marcar como Hecho">                                           
+                          <img src="assets/img/otro_icons/check-negro.png" alt="" width="15">                          
+                          </a>
+                          <?php }?>
+                          </div>
+                      
+                    </div>
+                  </div>
+                  <hr class="text-200">
+                  <?php }}?> 
+                  <?php if ($recurso8=="assign"){
+                    for ( $i = 0; $i < count($temaassign); $i++ ) {   
+                      $url = $_SESSION['url'].'v1/index.php/gesinpol_empleado_progreso_modulo';
+                      $parametros="empleado=".$_SESSION['idmoodle'] ."&curso=".$_REQUEST['curso']."&tema=".$_REQUEST['tema']."&modulo=".$temaassign_id[$i]['id'] ;
+                      $res_completo = resulrow($url, $parametros);
+                      $completado=0;
+                      $idm=0;
+                      $idmc=0;
+                      foreach ($res_completo["completado"] as $value) {
+                        $completado = $value['completionstate'];  
+                      }     
+                      $url = $_SESSION['url'].'v1/index.php/gesinpol_empleado_sin_progreso_modulo';
+                      $parametros="curso=".$_REQUEST['curso']."&tema=".$_REQUEST['tema']."&modulo=".$temaassign_id[$i]['id'] ;
+                      $res_completo = resulrow($url, $parametros);                         
+                              
+                      foreach ($res_completo["sin_completado"] as $value) {                                
+                                $idm= $value['idm'];                                
+                      }       
+                      if ($recurso8=="assign"){
+                        //leer cuestionarios y encuesta
+                        // cuestionario
+                             
+                         // encuesta
+                         if ($codigo_tarea !=""){
+                         $url = $_SESSION['url'].'v1/index.php/insco_tarea_curso';
+                         $parametros="curso=".$_REQUEST['curso']."&encuesta=". $codigo_tarea;
+                         $res_encuesta = resulrow($url, $parametros);                         
+                                 
+                         foreach ($res_encuesta["tarea"] as $value) { 
+                                   $tipo="assign";                               
+                                   $id_cuestionario= $value['id']; 
+                                   $name_cuestionario= $value['name'];                                
+                         } 
+                       }      
+                     }               
+                         // end encuesta             
+                      ?>
+                  <div class="d-flex mb-3 hover-actions-trigger align-items-center">
+                    <div class="file-thumbnail">
+                    <img class="border h-100 w-100 object-fit-cover rounded-2" src="assets/img/otro_icons/png-transparent-student-higtest-thumbnail.png" alt="">
+                    </div>
+                    <div class="ms-3 flex-shrink-1 flex-grow-1">
+                      <h6 class="mb-1">
+                      <a class="stretched-link text-900 fw-semi-bold" onclick="getContenidosMoodle(<?php echo $id_cuestionario;?>,<?php echo $_REQUEST['curso'];?>,'<?php echo $tipo;?>');"><?php echo $name_cuestionario;?> </a></h6>
+                     </h6>
+                      <div class="fs--1"></div>
+                      <div class="hover-actions end-0 top-50 translate-middle-y">
+                          <?php if ($completado==1){?>
+                            <a  class="btn btn-light border-300 btn-sm me-1 text-600" data-bs-toggle="tooltip" data-bs-placement="top"  download="Hecho" aria-label="Hecho" data-bs-original-title="Hecho">                                           
+                          <img src="assets/img/otro_icons/check-verde.png" alt="" width="15">                          
+                          </a>
+                        <?php }else{ ?>
+                          <a  class="btn btn-light border-300 btn-sm me-1 text-600" data-bs-toggle="tooltip" data-bs-placement="top" onclick="getHechovideo(<?php echo $_SESSION['idmoodle'];?>,<?php echo $idm;?>);" download="Marcar como Hecho" aria-label="Marcar como Hecho" data-bs-original-title="Marcar como Hecho">                                           
+                          <img src="assets/img/otro_icons/check-negro.png" alt="" width="15">                          
+                          </a>
+                          <?php }?>
+                          </div>
+                      
+                    </div>
+                  </div>
+                  <hr class="text-200">
+                  <?php }}?>                   
                   <div class="loading-overlay1" style="display: none;"><div class="overlay-content">cargando.....</div></div>
                   <div id="userData1"></div>
                   <!-- end -->
@@ -1117,6 +1309,27 @@ function getHechovideo(empleado,modulo){
         success:function(html){
             $('.loading-overlay1').hide();
             var pantalla="#userData1";
+            //console.log(pantalla);
+            //if (item=1){$('#userData1').html(html);}
+            //if (item=2){$('#userData2').html(html);}
+            //$('#userData').html(html);
+            $(pantalla).html(html);
+        }
+    });
+}
+</script>
+<script>
+function getContenidosMoodle(id,curso,tipo){
+    $.ajax({
+        type: 'POST',
+        url: 'componentes_moodle.php',
+        data: 'id='+id+'&curso='+curso+'&tipo='+tipo,
+        beforeSend:function(html){
+            $('.loading-overlay').show();
+        },
+        success:function(html){
+            $('.loading-overlay').hide();
+            var pantalla="#userData";
             //console.log(pantalla);
             //if (item=1){$('#userData1').html(html);}
             //if (item=2){$('#userData2').html(html);}

@@ -9,7 +9,7 @@
           <div class="d-flex align-items-center">
             <div class="toggle-icon-wrapper">
 
-              <button class="btn navbar-toggler-humburger-icon navbar-vertical-toggle" data-bs-toggle="tooltip" data-bs-placement="left" ><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
+              <button class="btn navbar-toggler-humburger-icon navbar-vertical-toggle" data-bs-toggle="tooltip" data-bs-placement="left" title=""><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
 
             </div><a class="navbar-brand" href="index.html">
               <div class="d-flex align-items-center py-3"><img class="me-2" src="./assets/images/logoS/Logo-marzo-2022-(RGB-web-transparente).png" alt="" width="100" height="auto" /><span class="font-sans-serif"></span>
@@ -23,7 +23,8 @@
         <li class="nav-item">
           <a class="nav-link" href="dashboard.php">
             <div class="d-flex align-items-center">
-            <!-- <img src="./assets/images/logoS/Fondo_insco.png" alt="Descripción de la imagen" width="30" height="30" class="me-2 custom-logo"> -->
+            <img src="./assets/images/logoS/Fondo_insco.png" alt="Descripción de la imagen" width="30" height="30" class="me-2 custom-logo">
+
               <span class="nav-link-text ps-1">Home</span>
             </div>
           </a>
@@ -74,13 +75,15 @@
                         </div>
                       </a>
                       <!-- more inner pages-->
-                    </li>            
+                    </li>    
+                    <!--        
                     <li class="nav-item"><a class="nav-link" href="<?php echo $_SESSION['valoracion'];?>">
                         <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Estrellas</span><span class="badge rounded-pill ms-2 badge-subtle-success">(1)</span>
                         </div>
                       </a>
-                      <!-- more inner pages-->
-                    </li>      
+                      
+                    </li>     
+                    --> 
                   <!--
                     <li class="nav-item"><a class="nav-link" href="inbox_mail.php">
                         <div class="d-flex align-items-center"><span class="nav-link-text ps-1">E-mail</span><span class="badge rounded-pill ms-2 badge-subtle-success">(2)</span>

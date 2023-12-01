@@ -12771,7 +12771,7 @@ html[data-bs-theme=dark] .tox .tox-dialog__footer .tox-button--secondary,
 .text-900 {
   --falcon-text-opacity: 1;
   color: rgba(var(--falcon-gray-900-rgb), var(--falcon-text-opacity)) !important;
-  background-color: #D5BFA7;
+ --background-color: #D5BFA7;
 }
 
 .text-1000 {
@@ -23139,6 +23139,9 @@ samp {
   border-bottom-left-radius: 0.375rem;
   border-bottom-right-radius: 0.375rem;
 }
+
+
+
 
 /* -------------------------------------------------------------------------- */
 /*                               Browser Fixing                               */

@@ -1,6 +1,14 @@
 <?php
+/*
+$porciones = explode("view.php?id=13", "https://cursos.cuyosoft.me/moodle/course/view.php?id=13");
+echo $porciones[0]; // porción1
+echo $porciones[1]; // porción2
+die();
+*/
 include("session.php");
-include_once 'web/fun_varios.php'; 
+include_once 'web/fun_varios.php';   
+$_SESSION['url_app_home']="http://localhost/insco/cliente/dashboard.php";
+$_SESSION['url_app_alumno']="http://localhost/insco/cliente/empleados.php";
 $url = $_SESSION['url'].'v1/index.php/gesinpol_empleadox1';
 //var_dump($urlexternos);
 $header = [
@@ -133,9 +141,9 @@ echo "</pre>";
  }else{
   echo $err;
  }
- //die("salir");
-//var_dump($categoria);
-$curso_enrolado=$_REQUEST['curso'];
+
+ //==== obtener encuesta final
+ $curso_enrolado=$_REQUEST['curso'];
 // obtener el contenido del curso enrolado
 if ($curso_enrolado >0 ){
     $url = $_SESSION['url'].'v1/index.php/gesinpol_items_tema_curso';
@@ -222,7 +230,7 @@ die();
 
   $err = curl_error($ch);
   curl_close($ch);
-/*   
+/*
 echo "<pre>";
 print_r($res["curso_page"]);
 echo "</pre>";
@@ -236,6 +244,7 @@ echo "</pre>";
             $id=$quiz['id'];
             $url=$quiz['content'];
             $url=$quiz['intro'];
+            $url_encuesta=$quiz['content'];
             $tema[]['nombre'] = $nombre;
             $tema_id[]['id'] = $id;
             $tema_url[]['url'] = $url;
@@ -255,7 +264,8 @@ echo "</pre>";
     }
   }
 }
-  // 
+ // end
+ //echo "valor" .$url_encuesta;
 ?>
 <!DOCTYPE html>
 <html data-bs-theme="light" lang="en-US" dir="ltr">
@@ -289,11 +299,7 @@ echo "</pre>";
     <!-- ===============================================-->
     <!--    Stylesheets-->
     <!-- ===============================================-->
-    <link href="vendors/leaflet/leaflet.css" rel="stylesheet">
-    <link href="vendors/leaflet.markercluster/MarkerCluster.css" rel="stylesheet">
-    <link href="vendors/leaflet.markercluster/MarkerCluster.Default.css" rel="stylesheet">
-    <link href="vendors/fullcalendar/main.min.css" rel="stylesheet">
-    <link href="vendors/flatpickr/flatpickr.min.css" rel="stylesheet">
+    <link href="vendors/glightbox/glightbox.min.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700%7cPoppins:300,400,500,600,700,800,900&amp;display=swap" rel="stylesheet">
     <link href="vendors/simplebar/simplebar.min.css" rel="stylesheet">
@@ -343,100 +349,133 @@ echo "</pre>";
       <!-- end top-->
           <!-- comienza-->
           <div class="card mb-3">
-            <div class="bg-holder d-none d-lg-block bg-card" style="background-image:url(assets/img/icons/spot-illustrations/corner-4.png);">
+          <div class="row">  
+      <div class="card">
+                <div class="card-header d-flex flex-between-center">
+                <a class="dropdown-item" href="<?php echo $_SESSION['url_app_home'];?>">
+                <button class="btn btn-falcon-default btn-sm" type="button"><svg class="svg-inline--fa fa-arrow-left fa-w-14" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="arrow-left" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M257.5 445.1l-22.2 22.2c-9.4 9.4-24.6 9.4-33.9 0L7 273c-9.4-9.4-9.4-24.6 0-33.9L201.4 44.7c9.4-9.4 24.6-9.4 33.9 0l22.2 22.2c9.5 9.5 9.3 25-.4 34.3L136.6 216H424c13.3 0 24 10.7 24 24v32c0 13.3-10.7 24-24 24H136.6l120.5 114.8c9.8 9.3 10 24.8.4 34.3z"></path></svg><!-- <span class="fas fa-arrow-left"></span> Font Awesome fontawesome.com --></button>
+                </a>
+                <div class="d-flex">
+                    
+                    <div class="dropdown font-sans-serif ms-2">
+                      <button class="btn btn-falcon-default text-600 btn-sm dropdown-toggle dropdown-caret-none" type="button" id="preview-dropdown" data-bs-toggle="dropdown" data-boundary="viewport" aria-haspopup="true" aria-expanded="false"><svg class="svg-inline--fa fa-ellipsis-v fa-w-6 fs--2" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="ellipsis-v" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 512" data-fa-i2svg=""><path fill="currentColor" d="M96 184c39.8 0 72 32.2 72 72s-32.2 72-72 72-72-32.2-72-72 32.2-72 72-72zM24 80c0 39.8 32.2 72 72 72s72-32.2 72-72S135.8 8 96 8 24 40.2 24 80zm0 352c0 39.8 32.2 72 72 72s72-32.2 72-72-32.2-72-72-72-72 32.2-72 72z"></path></svg><!-- <span class="fas fa-ellipsis-v fs--2"></span> Font Awesome fontawesome.com --></button>
+                      <div class="dropdown-menu dropdown-menu-end border py-2" aria-labelledby="preview-dropdown"><a class="dropdown-item" href="#!">View</a><a class="dropdown-item" href="#!">Export</a><a class="dropdown-item d-sm-none" href="#!">Delete</a>
+                        <div class="dropdown-divider"></div><a class="dropdown-item text-danger" href="#!">Remove</a>
+                      </div>
+                    </div>
             </div>
-            <!--/.bg-holder-->
-
-            <div class="card-body position-relative">
-              <div class="row">
-                <div class="col-lg-8">
-                  <h3>Empleado: <?php echo $empleado;?></h3>
-                  <p class="mb-0">Calendario con las video clases online / offline.</p><a class="btn btn-link btn-sm ps-0 mt-2" href="https://getbootstrap.com/docs/5.3/content/tables/" target="_blank">Ver Perfil<span class="fas fa-chevron-right ms-1 fs--2"></span></a>
-                </div>
-              </div>
-            </div>
-          </div>
-
+          </div>         
+          
           <div class="card mb-3">
-            <div class="bg-holder d-none d-lg-block bg-card" style="background-image:url(assets/img/icons/spot-illustrations/corner-4.png);">
-            </div>
+          <div class="bg-holder d-none d-lg-block bg-card">
+            
+          </div>
             <!--/.bg-holder-->
 
             <div class="card-body position-relative">
               <div class="row">
                 <div class="col-lg-8">
-                  <h3>Empresa: <?php echo $empresa;?></h3>
-                  <p class="mb-0">Calendario con las video clases online / offline.</p>
+                  <h3>Certificados</h3>
                 </div>
               </div>
             </div>
           </div>
-          <div class="row g-3 mb-3">
+
+          
+          
  
 
 <!-- tabla doble empleados y cursos -->
-<div class="card mb-3">
-<div class="card overflow-hidden mb-3">
-            <div class="card-header bg-light">
-              <div class="row flex-between-center">
-                <div class="col-sm-auto">
-                  <h5 class="mb-1 mb-md-0">Su Notificaciones de los Cursos</h5>
+
+          <div class="card mb-3">
+            <div class="card-header border-bottom">
+              <div class="row flex-between-end">
+                <div class="col-auto align-self-center">
+                  <h5 class="mb-0" data-anchor="data-anchor">Certificados obtenidos en el curso</h5>
                 </div>
-                <div class="col-sm-auto fs--1"><a class="font-sans-serif ms-2 ms-sm-3" href="#!">Mark all as read</a><a class="font-sans-serif ms-2 ms-sm-3" href="#notification-settings-modal" data-bs-toggle="modal">Notification settings</a></div>
+                <div class="col-auto ms-auto">
+                  
+                </div>
               </div>
             </div>
-            <div class="card-body fs--1 p-0">
-            <?php if ($recurso1=="page"){
-                    for ( $i = 0; $i < count($tema); $i++ ) {   
-                      $url = $_SESSION['url'].'v1/index.php/gesinpol_empleado_progreso_modulo';
-                      $parametros="empleado=".$_SESSION['idmoodle'] ."&curso=".$_REQUEST['curso']."&tema=".$_REQUEST['tema']."&modulo=".$tema_id[$i]['id'] ;
-                      $res_completo = resulrow($url, $parametros);
-                      $completado=0;
-                      $idm=0;
-                      $idmc=0;
-                      foreach ($res_completo["completado"] as $value) {
-                        $completado = $value['completionstate'];  
-                      }    
-                      $url = $_SESSION['url'].'v1/index.php/gesinpol_empleado_sin_progreso_modulo';
-                      $parametros="curso=".$_REQUEST['curso']."&tema=".$_REQUEST['tema']."&modulo=".$tema_id[$i]['id'] ;
-                      $res_completo = resulrow($url, $parametros);                         
-                              
-                      foreach ($res_completo["sin_completado"] as $value) {                                
-                                $idm= $value['idm'];                                
-                      }                                   
+            <div class="card-body pt-0">
+              <div class="tab-content">
+                <div class="tab-pane preview-tab-pane active" role="tabpanel" aria-labelledby="tab-dom-ebd7cae0-f4cb-4425-91da-b656fcb40d10" id="dom-ebd7cae0-f4cb-4425-91da-b656fcb40d10">
+                  <div class="table-responsive scrollbar">
+                  <?php
+                  if ($recurso1=="page"){
+                    for ( $i = 0; $i < count($tema); $i++ ) {                                                        
                       ?>
-              <a class="border-bottom-0 notification rounded-0 border-x-0 border-300" href="#!">
-                <div class="notification-avatar">
-                  <div class="avatar avatar-xl me-3">
-                    <img class="rounded-circle" src="assets/img/team/1.jpg" alt="">
-
-                  </div>
+                  <table class="table table-dashboard mb-0 table-borderless fs--1 border-200">
+                      <thead class="bg-light">
+                        <tr class="text-900">
+                          <th>Nombre</th>
+                         
+                        </tr>
+                      </thead>
+                      <tbody>
+                 
+                  
+                      <tr class="border-bottom border-200">
+                          <td>
+                            <div class="d-flex align-items-center position-relative"><img class="rounded-1 border border-200" src="assets/img/products/12.png" width="60" alt="">
+                              <div class="flex-1 ms-3">
+                                <h6 class="mb-1 fw-semi-bold"><a class="text-dark stretched-link" href="#"><?php echo $tema[$i]['nombre'];?> </a></h6>
+                                <p class="fw-semi-bold mb-0 text-500"></p>
+                              </div>
+                            </div>
+                          </td>
+                         
+                        </tr>
+                        
+                      </tbody>
+                    </table>
+                    <style>
+    .embed-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+}
+.16by9 {
+    padding-bottom: 56.25%;
+}
+.4by3 {
+    padding-bottom: 75%;
+}
+.embed-container iframe {
+    position: absolute;
+    top:0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+    </style>
+                    <div class="embed-container">
+                    <?php  
+                     $porciones = explode("view.php", $url_encuesta);
+                     if ($porciones[1] != ""){
+                        echo"No disponible hasta que: Consiga la puntuación requerida";
+                     }else {
+                      echo $url_encuesta;
+                     } 
+                     ?>             
+                    </div>
+                    <?php }}?>
                 </div>
-                <div class="notification-body">
-                  <p class="mb-1"><?php echo $tema[$i]['nombre'];?> !</p>
-                  <span class="notification-time"><span class="me-2" role="img" aria-label="Emoji">📢</span><?php echo $tema_url[$i]['url'];?> </span>
-
                 </div>
-              </a>
-              <?php }}?>
-             
-
-              
-
+                <div class="tab-pane code-tab-pane" role="tabpanel" aria-labelledby="tab-dom-16c91512-0455-442e-9295-0d2d26d0c97c" id="dom-16c91512-0455-442e-9295-0d2d26d0c97c">
+                  
+                </div>
+              </div>
             </div>
           </div>
-
-          <div class="row g-3">
-          <?php 
-          if ($recurso1==""){ echo "No hay disponible datos en este momento.";}
-          ?>
-          <br/><br/><br/><br/><br/><br/><br/><br/><br/>
-          </div>
-          <div class="row g-3"></div>
-          <div class="row g-3"></div>
-          <div class="row g-3"></div>
-
-                
+          <div class="card mb-3">
+          
+          <br/><br/><br/><br/><br/><br/><br/><br/><br/></div>
+          <div class="card mb-3"></div>
+          <div class="card mb-3"></div>
+          <div class="card mb-3"></div>
           <!--end-->
           <footer class="footer">
             <div class="row g-0 justify-content-between fs--1 mt-4 mb-3">
@@ -615,25 +654,18 @@ echo "</pre>";
     <!-- ===============================================-->
     <!--    JavaScripts-->
     <!-- ===============================================-->
-    
     <script src="vendors/popper/popper.min.js"></script>
     <script src="vendors/bootstrap/bootstrap.min.js"></script>
     <script src="vendors/anchorjs/anchor.min.js"></script>
     <script src="vendors/is/is.min.js"></script>
-    <script src="vendors/chart/chart.min.js"></script>
-    <script src="vendors/leaflet/leaflet.js"></script>
-    <script src="vendors/leaflet.markercluster/leaflet.markercluster.js"></script>
-    <script src="vendors/leaflet.tilelayer.colorfilter/leaflet-tilelayer-colorfilter.min.js"></script>
-    <script src="vendors/countup/countUp.umd.js"></script>
+    <script src="vendors/glightbox/glightbox.min.js"></script>
     <script src="vendors/echarts/echarts.min.js"></script>
-    <script src="vendors/fullcalendar/main.min.js"></script>
-    <script src="assets/js/flatpickr.js"></script>
-    <script src="vendors/dayjs/dayjs.min.js"></script>
     <script src="vendors/fontawesome/all.min.js"></script>
     <script src="vendors/lodash/lodash.min.js"></script>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
     <script src="vendors/list.js/list.min.js"></script>
     <script src="assets/js/theme.js"></script>
+
   </body>
 
 </html>

@@ -1,16 +1,30 @@
 <?php
-include("session.php");
-$_SESSION['url_app_temas']="https://cursos.cuyosoft.me/cliente/area_cursos_new.php?curso=".$_REQUEST['curso'];
+//SELECT * FROM `mdl_googlemeet` 
+//SELECT * FROM `mdl_googlemeet_events` 
+//  googlemeetid 	
+/*
+select s.name,ss.duration,FROM_UNIXTIME(ss.starttime) as fecha,FROM_UNIXTIME(ss.starttime,'%d') as dia,FROM_UNIXTIME(ss.starttime,'%H:%i') as hora,ss.notes
+          from mdl_googlemeet s, mdl_googlemeet_events ss 
+          where 
+              s.id=ss.googlemeetid and 
+              s.course=".$param['curso']. " order by ss.eventdate asc
 
-$url = $_SESSION['url'].'v1/index.php/gesinpol_cursosxcurso';
+              select name,url,FROM_UNIXTIME(ss.eventdate) as fecha,FROM_UNIXTIME(ss.eventdate,'%H:%i') as hora
+          from mdl_googlemeet s, mdl_googlemeet_events ss 
+          where 
+              s.id=ss.googlemeetid and 
+              s.course=10 order by ss.eventdate asc;
+*/	
+include("session.php");
+$_SESSION['url_app_home']="http://localhost/insco/cliente/dashboard.php";
+$url = $_SESSION['url'].'v1/index.php/gesinpol_empleadox1';
 //var_dump($urlexternos);
 $header = [
   'Accept: application/json',
   'Content-Type: application/x-www-form-urlencoded',
   'Authorization: 3d524a53c110e4c22463b10ed32cef9d',
 ]; 
-$parametros="curso=".$_REQUEST['curso'];
-$curso_nombre="";
+$parametros="usuario=".$_SESSION['idmoodle'];
 //echo $parametros; //die();
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, $url);
@@ -35,38 +49,110 @@ curl_close($ch);
 if (!$err)
  {
    
-  // var_dump ($res['proveedor']);
+   //var_dump ($res['usuarios']);
+/*
+echo "<pre>";
+print_r($res["empleado"]);
+echo "</pre>";
+*/
+   $cuerpo="";
+   $i=1;
+   foreach($res["empleado"] as $usuario) {
+		$empleado=$usuario["nombre"];
+    $empresa=$usuario["empresa"]; 
+    }   
+ }else{
+  echo $err;
+ }
+//2--- EMPRESA
+$url = $_SESSION['url'].'v1/index.php/gesinpol_empresax1';
+$parametros="empresa=".$empresa;
+//echo $parametros; //die();
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $url);
+curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+curl_setopt($ch, CURLOPT_FRESH_CONNECT, 1);
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+curl_setopt($ch, CURLOPT_POST, 1);
+//curl_setopt($ch, CURLOPT_POSTFIELDS,'user=admin01&pass=123456');
+curl_setopt($ch, CURLOPT_POSTFIELDS,$parametros);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+// pass header variable in curl method
+curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+curl_setopt($ch, CURLOPT_HEADER, false);
+
+$result = curl_exec($ch);
+$res    = json_decode($result, true);
+
+$err = curl_error($ch);
+curl_close($ch);
+if (!$err)
+ {
+   
+   //var_dump ($res['usuarios']);
+/*
+echo "<pre>";
+print_r($res["empleados"]);
+echo "</pre>";
+*/
+   $cuerpo="";   
+     foreach($res['empresa'] as $empresa) {
+         $empresa = $empresa['nombre'];        
+         
+      }
+ }else{
+  echo $err;
+ }
+ //3
+ // obtener los cursos contratados por la empresa
+$url = $_SESSION['url'].'v1/index.php/gesinpol_empleado_cursos';
+$parametros="empleado=".$_SESSION['idmoodle'];
+//echo $parametros; //die();
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $url);
+curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+curl_setopt($ch, CURLOPT_FRESH_CONNECT, 1);
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+curl_setopt($ch, CURLOPT_POST, 1);
+//curl_setopt($ch, CURLOPT_POSTFIELDS,'user=admin01&pass=123456');
+curl_setopt($ch, CURLOPT_POSTFIELDS,$parametros);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+// pass header variable in curl method
+curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+curl_setopt($ch, CURLOPT_HEADER, false);
+
+$result = curl_exec($ch);
+$res    = json_decode($result, true);
+
+$err = curl_error($ch);
+curl_close($ch);
+if (!$err)
+ {
+   
+   //var_dump ($res['usuarios']);
 /*
 echo "<pre>";
 print_r($res["cursos"]);
 echo "</pre>";
-die();
 */
    $cuerpo="";
    $i=1;
-  
-    $categoria =  array();
-    foreach($res['cursos'] as $cursos) {
-           $curso_enrolado =$_REQUEST['curso'];//$cursos ['id'];
-           $curso_nombre =$cursos ['fullname'];   
-     }
-
+   foreach($res["cursos"] as $usuario) {
+		$curso=$usuario["fullname"];
+   
+	   
+    }   
  }else{
   echo $err;
  }
-
- $curso_enrolado="";
-if ($curso_enrolado==""){$curso_enrolado=$_REQUEST['curso'];}
-// obtener el contenido del curso enrolado
-if ($curso_enrolado >0 ){
-    $url = $_SESSION['url'].'v1/index.php/gesinpol_temas_curso_usuario';
-//var_dump($urlexternos);
-$header = [
-  'Accept: application/json',
-  'Content-Type: application/x-www-form-urlencoded',
-  'Authorization: 3d524a53c110e4c22463b10ed32cef9d',
-]; 
-$parametros="curso=".$curso_enrolado;
+ // obtener calendario
+ // obtener los cursos contratados por la empresa
+$url = $_SESSION['url'].'v1/index.php/insco_planificacion_cursox1';
+$parametros="curso=".$_SESSION['curso'];
 //echo $parametros; //die();
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, $url);
@@ -84,62 +170,145 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
 curl_setopt($ch, CURLOPT_HEADER, false);
 
 $result = curl_exec($ch);
-$res    = json_decode($result, true);
+$res_calendario    = json_decode($result, true);
 
 $err = curl_error($ch);
 curl_close($ch);
 if (!$err)
  {
    
-  // var_dump ($res['proveedor']);
+   //var_dump ($res['usuarios']);
 /*
 echo "<pre>";
-print_r($res["temas"]);
+print_r($res_calendario["videoclase"]);
 echo "</pre>";
 */
    $cuerpo="";
    $i=1;
-  
-    $tema=  array();
-	$tema_id=  array();
-    $tema_summary=array();
-    foreach($res['temas'] as $temas) {
-          $mystring = $temas["name"];
-          $findme   = 'M1';
-					$pos_m1 = strpos($mystring, $findme);
-          $findme   = 'M2';
-					$pos_m2 = strpos($mystring, $findme);
-          $findme   = 'M3';
-					$pos_m3 = strpos($mystring, $findme);
-          $findme   = 'M4';
-					$pos_m4 = strpos($mystring, $findme);
-          $findme   = 'M5';
-					$pos_m5 = strpos($mystring, $findme);
-          $findme   = 'M6';
-					$pos_m6 = strpos($mystring, $findme);
-          $findme   = 'M7';
-					$pos_m7 = strpos($mystring, $findme);
-          $findme   = 'M8';
-					$pos_m8 = strpos($mystring, $findme);
-          $findme   = 'M9';
-					$pos_m9 = strpos($mystring, $findme);
-					//echo $mystring." : ".$pos_no_ver;
-					if (($pos_m1 === false) && ($pos_m2=== false) && ($pos_m3=== false)&& ($pos_m4=== false)&& ($pos_m5=== false)&& ($pos_m6=== false)&& ($pos_m7=== false)&& ($pos_m8=== false)&& ($pos_m9=== false)){
-            $tema[]['nombre'] = $temas['name'];
-            $tema_summary[]['summary'] = $temas['summary'];      
-            $tema_id[]['id'] = $temas['id'];
-					}
-      
-     }
-
+   //echo "total" .count($res_calendario["videoclase"]);
+   $total=$res_calendario["videoclase"];
  }else{
   echo $err;
  }
-//var_dump($tema);
+ // === cronogramas
+ // obtener calendario
+ // obtener los cursos contratados por la empresa
+ $curso_enrolado=$_REQUEST['curso'];
+ // obtener el contenido del curso enrolado
+ if ($curso_enrolado >0 ){
+     $url = $_SESSION['url'].'v1/index.php/gesinpol_items_tema_curso';
+ //var_dump($urlexternos);
+ $header = [
+   'Accept: application/json',
+   'Content-Type: application/x-www-form-urlencoded',
+   'Authorization: 3d524a53c110e4c22463b10ed32cef9d',
+ ]; 
+ $parametros="curso=".$curso_enrolado."&tema=".$_REQUEST['tema'];
+ //echo $parametros; //die();
+ $ch = curl_init();
+ curl_setopt($ch, CURLOPT_URL, $url);
+ curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+ curl_setopt($ch, CURLOPT_FRESH_CONNECT, 1);
+ curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+ curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+ curl_setopt($ch, CURLOPT_POST, 1);
+ //curl_setopt($ch, CURLOPT_POSTFIELDS,'user=admin01&pass=123456');
+ curl_setopt($ch, CURLOPT_POSTFIELDS,$parametros);
+ curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+ curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+ // pass header variable in curl method
+ curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+ curl_setopt($ch, CURLOPT_HEADER, false);
+ 
+ $result = curl_exec($ch);
+ $res    = json_decode($result, true);
+ 
+ $err = curl_error($ch);
+ curl_close($ch);
+ if (!$err)
+  {
+    
+   // var_dump ($res['proveedor']);
+ /*
+ echo "<pre>";
+ print_r($res["items"]);
+ echo "</pre>";
+ die();
+ */
+    $cuerpo="";
+    $i=1;
+   
+     $tema=  array();
+     $tema_id=array();
+     $tema_url=array();
+     //var_dump($res['items']);die();
+     $temaurl=  array();
+     $temaurl_id=array();
+     $temaurl_url=array();
+     $temaquiz=  array();
+     $temaquiz_id=array();
+     $temaquiz_url=array();
+     $temafeedback=  array();
+     $temafeedback_id=array();
+     $temafeedback_url=array();
+ 
+     $recurso0="";$recurso1="";$recurso2="";$recurso3="";$recurso4="";$recurso5="";$recurso6="";$recurso7="";
+     foreach($res['items'] as $items_tema) {
+        if ($items_tema['name']=="book"){
+            $nombre="";$id="";
+            $url = $_SESSION['url'].'v1/index.php/gesinpol_curso_bookvisible';	
+            $parametros="course=".$_REQUEST['curso']."&id=".$_REQUEST['tema'];
+            //echo $parametros; //die();
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+            curl_setopt($ch, CURLOPT_FRESH_CONNECT, 1);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            //curl_setopt($ch, CURLOPT_POSTFIELDS,'user=admin01&pass=123456');
+            curl_setopt($ch, CURLOPT_POSTFIELDS,$parametros);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+            // pass header variable in curl method
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+            curl_setopt($ch, CURLOPT_HEADER, false);
+
+            $result = curl_exec($ch);
+            $res    = json_decode($result, true);
+
+            $err = curl_error($ch);
+            curl_close($ch);
+/*   
+echo "<pre>";
+print_r($res["curso_book"]);
+echo "</pre>";
 //die();
+*/
+
+            if (!$err)
+            { 				
+                $temabook=  array();
+                $temabook_id=array();
+                $temabook_url=array();	
+
+                foreach($res['curso_book'] as $quiz) {
+                        $nombre=$quiz['name'];
+                $id=$quiz['id'];
+               // $url=$quiz['content'];
+                $temabook[]['nombre'] = $nombre;
+                $temabook_id[]['id'] = $id;
+                $temabook_url[]['url'] = $url;
+                }
+                $recurso4=$items_tema['name'];
+            }
+
+         } // end book	  
+         
+     } 
+    }
 }
-
-
+ // === end
 ?>
 <!DOCTYPE html>
 <html data-bs-theme="light" lang="en-US" dir="ltr">
@@ -173,7 +342,11 @@ echo "</pre>";
     <!-- ===============================================-->
     <!--    Stylesheets-->
     <!-- ===============================================-->
-    <link href="vendors/glightbox/glightbox.min.css" rel="stylesheet">
+    <link href="vendors/leaflet/leaflet.css" rel="stylesheet">
+    <link href="vendors/leaflet.markercluster/MarkerCluster.css" rel="stylesheet">
+    <link href="vendors/leaflet.markercluster/MarkerCluster.Default.css" rel="stylesheet">
+    <link href="vendors/fullcalendar/main.min.css" rel="stylesheet">
+    <link href="vendors/flatpickr/flatpickr.min.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700%7cPoppins:300,400,500,600,700,800,900&amp;display=swap" rel="stylesheet">
     <link href="vendors/simplebar/simplebar.min.css" rel="stylesheet">
@@ -196,6 +369,193 @@ echo "</pre>";
         userLinkRTL.setAttribute('disabled', true);
       }
     </script>
+	<!-- calendario-->
+	<script type="text/javascript" src="assets/CalenStyle/js/jquery-1.11.1.min.js"></script>
+		<script type="text/javascript" src="assets/CalenStyle/js/jquery-ui-custom-1.11.2.min.js"></script>
+    	<link rel="stylesheet" type="text/css" href="assets/CalenStyle/css/jquery-ui-custom-1.11.2.min.css" />
+    	    
+		<link rel="stylesheet" type="text/css" href="assets/CalenStyle/src/calenstyle.css" />
+		<link rel="stylesheet" type="text/css" href="assets/CalenStyle/src/calenstyle-jquery-ui-override.css" />
+		<link rel="stylesheet" type="text/css" href="assets/CalenStyle/src/calenstyle-iconfont.css" />
+		<script type="text/javascript" src="assets/CalenStyle/src/calenstyle.js"></script>
+	
+		<script type="text/javascript" src="assets/CalenStyle/js/CalJsonGenerator.js"></script>
+	
+		<style type="text/css">
+		
+			.calendarContOuter
+			{
+            	width: 90%;
+				height: 600px;
+				margin: 0px auto;
+            
+				font-size: 14px;
+			}
+			
+			.cElemDatePicker
+			{
+				font-size: 14px;
+			}
+
+			.cActionBar
+			{
+				line-height: 30px;
+				background: #F5F5F5;
+			}
+		
+			.reload
+			{
+				margin-left: 10px;
+				padding: 3px 5px;
+				border-radius: 2px;
+				background: #444444;
+                font-size: 80%;
+                color: #FFFFFF;
+
+				cursor: pointer;
+			}
+		
+		</style>
+	
+		<script type="text/javascript">
+		
+			$(function() 
+			{
+                
+				$(".calendarContOuter").CalenStyle(
+				{
+				
+					sectionsList: ["Header", "ActionBar", "Calendar"],
+				
+					visibleView: "DetailedMonthView",
+
+					calDataSource: 
+					[
+					    {
+					        sourceFetchType: "ALL",
+					        sourceType: "JSON",						
+					        source: {
+
+   
+  
+						        eventSource: [
+                                    <?php
+                  $item=0;    
+foreach($res_calendario["videoclase"] as $usuario) {
+  $item=$item +1;
+  $id=$usuario["id"];
+  $name=$usuario["name"];
+  $fecha=$usuario["fecha"];
+  $hora=$usuario["hora"];
+  $hora_end="02:00";
+  $url=$usuario["url"];
+ ?>
+						        	{
+						              "identifier": "<?php echo $id;?>", 
+						              "isAllDay": false, 
+						              "start": "<?php echo $fecha;?> <?php echo $hora;?>",
+						              "end": "<?php echo $fecha;?> <?php echo $hora_end;?>",
+						              "calendar": "Meeting", 
+						              "tag": "Work",
+						              "title": "<?php echo $name;?>", 
+						              "description": "", 
+						              "url": "<?php echo $url;?>", 
+
+						              "icon": "cs-icon-Meeting", 
+						              "color": "20DAEC", 
+						              "borderColor": "000000", 
+						              "textColor": "000000",
+						              "nonAllDayEventsTextColor": "000000",
+
+						              "isDragNDropInMonthView": true, 
+						              "isDragNDropInDetailView": true, 
+						              "isResizeInDetailView": true 
+						            }
+                        <?php                         
+                        if ($item < $total){ echo ", ";}else{ echo " ";}
+                      }?>                              
+<?php
+                  $item=0;     
+  if (isset($res['curso_book'])>0){
+                 $total=count($res['curso_book']);
+//foreach($res_calendario["videoclase"] as $usuario) {
+ 
+    foreach($res['curso_book'] as $usuario) {    
+  $item=$item +1;
+  $id=$usuario["id"];
+  $name=$usuario["name"];
+  $fecha=$usuario["intro"];
+  // hasta
+  $findme   = ' hasta ';
+  $pos = strpos($fecha, $findme);
+  //echo $mystring." : ".$pos_no_ver;
+  $fecha_inicio="";
+  $fecha_fin="";
+  if (($pos === false) ){
+    $url_item = explode("hasta", $fecha);
+    $fecha_inicio= $url_item[0]; // porción1
+    $fecha_fin= $url_item[1]; // porción1
+  }else{
+    $url_item = explode("hasta", $fecha);
+    $fecha_inicio= $url_item[0]; // porción1
+    $fecha_fin= $url_item[1]; // porción1
+  }
+
+  $hora="01:00";
+  $hora_end="02:00";
+  $url="";
+ ?>
+						        	{
+						              "identifier": "<?php echo $item;?>", 
+						              "isAllDay": false, 
+						              "start": "<?php echo trim($fecha_inicio);?>",
+						              "end": "<?php echo trim($fecha_fin);?>",
+						              "calendar": "Meeting", 
+						              "tag": "Work",
+						              "title": "<?php echo $name;?>", 
+						              "description": "", 
+						              "url": "<?php echo $url;?>", 
+
+						              "icon": "cs-icon-Meeting", 
+						              "color": "20DAEC", 
+						              "borderColor": "000000", 
+						              "textColor": "000000",
+						              "nonAllDayEventsTextColor": "000000",
+
+						              "isDragNDropInMonthView": true, 
+						              "isDragNDropInDetailView": true, 
+						              "isResizeInDetailView": true 
+						            }
+                        <?php                         
+                        if ($item < $total){ echo ",";}else{ echo " ";}
+                      } }?>  
+                                 
+						        ]
+						    }
+					        
+					    }
+					],
+				
+					modifyActionBarView: function(actionBar, visibleViewName)
+					{
+						var thisObj = this;
+					
+						$(actionBar).empty();
+						$(actionBar).append("<span class='reload'>Reload</span>");
+						$(".reload").click(function()
+						{
+							thisObj.reloadData();
+						});
+					}
+				
+				});
+				
+			});
+		
+		</script>
+	
+	</head>
+	<!-- end calendario -->
   </head>
 
 
@@ -225,7 +585,7 @@ echo "</pre>";
       <div class="row">  
       <div class="card">
                 <div class="card-header d-flex flex-between-center">
-                <a class="dropdown-item" href="<?php echo $_SESSION['url_app_alumno'];?>">
+                <a class="dropdown-item" href="<?php echo $_SESSION['url_app_home'];?>">
                 <button class="btn btn-falcon-default btn-sm" type="button"><svg class="svg-inline--fa fa-arrow-left fa-w-14" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="arrow-left" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M257.5 445.1l-22.2 22.2c-9.4 9.4-24.6 9.4-33.9 0L7 273c-9.4-9.4-9.4-24.6 0-33.9L201.4 44.7c9.4-9.4 24.6-9.4 33.9 0l22.2 22.2c9.5 9.5 9.3 25-.4 34.3L136.6 216H424c13.3 0 24 10.7 24 24v32c0 13.3-10.7 24-24 24H136.6l120.5 114.8c9.8 9.3 10 24.8.4 34.3z"></path></svg><!-- <span class="fas fa-arrow-left"></span> Font Awesome fontawesome.com --></button>
                 </a>
                 <div class="d-flex">
@@ -237,62 +597,41 @@ echo "</pre>";
                       </div>
                     </div>
             </div>
-            </div>
+          </div>         
           <!-- comienza-->
           <div class="card mb-3">
-            <div class="bg-holder d-none d-lg-block bg-card" style="background-image:url(assets/img/icons/spot-illustrations/corner-4.png);">
-            </div>
+          <div class="bg-holder d-none d-lg-block bg-card">
+
+          </div>
             <!--/.bg-holder-->
 
             <div class="card-body position-relative">
               <div class="row">
                 <div class="col-lg-8">
-                  <h3><?PHP echo $curso_nombre;?></h3>
-                  <p class="mb-0">Documentation and examples for opt-in styling of tables with Falcon.</p><a class="btn btn-link btn-sm ps-0 mt-2" href="https://getbootstrap.com/docs/5.3/content/tables/" target="_blank">Tables on Bootstrap<span class="fas fa-chevron-right ms-1 fs--2"></span></a>
+                  <h3>Video Clases Online</h3>
                 </div>
               </div>
             </div>
           </div>
 
-         
-          <div class="row g-3 mb-3">
- 
+          
+		  <div class="card mb-3">
+            <div class="bg-holder d-none d-lg-block bg-card">
+              
+            </div>
+            <!--/.bg-holder-->
 
-<!-- tabla doble empleados y cursos -->
-<div class="card mb-3">
-<div class="row g-0">
-<?php                              
-                           for ( $i = 0; $i < count($tema); $i++ ) {   ?>
-            <div class="col-md-4 pe-md-2">
-              <div class="card mb-3">
-                <div class="card-header">
-                  <div class="row flex-between-end">
-                    <div class="col-auto align-self-center">
-                      <h5 class="mb-0" data-anchor="data-anchor" id="circular"><?php echo $tema[$i]['nombre'];?><a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="Acceder" href="area_cursos_item_new.php?tema=<?php echo $tema_id[$i]['id'];?>&curso=<?php echo $curso_enrolado;?>" style="padding-left: 0.375em;"></a></h5>
-                    </div>
-                    
-                  </div>
-                </div>
-                <div class="card-body bg-light">
-                  <div class="tab-content">
-                    <div class="tab-pane preview-tab-pane active show" role="tabpanel" aria-labelledby="tab-dom-f9f160af-450d-417a-a0d4-ff7e9eed30c6" id="dom-f9f160af-450d-417a-a0d4-ff7e9eed30c6">
-                      <div class="avatar avatar-4xl">                        
-                        <?php echo str_replace("@@PLUGINFILE@@/", 'https://cursos.cuyosoft.me/moodle/draftfile.php/5/user/draft/482012080/' , $tema_summary[$i]['summary']);?>
-                      </div>
-                    </div>
-                   
-                  </div>
+            <div class="card-body position-relative">
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="calendarContOuter"></div>
                 </div>
               </div>
             </div>
-<?php }?>
-<div class="card mb-3">
-<br/><br/><br/>
-</div>         
-<div class="card mb-3">
-<br/><br/><br/>
-</div>             
- 
+          </div>
+          <div class="card mb-3"><br/><br/><br/><br/><br/><br/><br/><br/><br/></div>
+          
+
           <!--end-->
           <footer class="footer">
             <div class="row g-0 justify-content-between fs--1 mt-4 mb-3">
@@ -471,17 +810,40 @@ echo "</pre>";
     <!-- ===============================================-->
     <!--    JavaScripts-->
     <!-- ===============================================-->
+    <!--
     <script src="vendors/popper/popper.min.js"></script>
     <script src="vendors/bootstrap/bootstrap.min.js"></script>
     <script src="vendors/anchorjs/anchor.min.js"></script>
     <script src="vendors/is/is.min.js"></script>
     <script src="vendors/glightbox/glightbox.min.js"></script>
+    <script src="vendors/echarts/echarts.min.js"></script>
+    <script src="vendors/fontawesome/all.min.js"></script>
+    <script src="vendors/lodash/lodash.min.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
+    <script src="vendors/list.js/list.min.js"></script>
+    <script src="vendors/fullcalendar/main.min.js"></script>
+    <script src="assets/js/flatpickr.js"></script>
+    <script src="vendors/dayjs/dayjs.min.js"></script>
+    <script src="assets/js/theme.js"></script>
+          -->
+    <script src="vendors/popper/popper.min.js"></script>
+    <script src="vendors/bootstrap/bootstrap.min.js"></script>
+    <script src="vendors/anchorjs/anchor.min.js"></script>
+    <script src="vendors/is/is.min.js"></script>
+    <script src="vendors/chart/chart.min.js"></script>
+    <script src="vendors/leaflet/leaflet.js"></script>
+    <script src="vendors/leaflet.markercluster/leaflet.markercluster.js"></script>
+    <script src="vendors/leaflet.tilelayer.colorfilter/leaflet-tilelayer-colorfilter.min.js"></script>
+    <script src="vendors/countup/countUp.umd.js"></script>
+    <script src="vendors/echarts/echarts.min.js"></script>
+    <script src="vendors/fullcalendar/main.min.js"></script>
+    <script src="assets/js/flatpickr.js"></script>
+    <script src="vendors/dayjs/dayjs.min.js"></script>
     <script src="vendors/fontawesome/all.min.js"></script>
     <script src="vendors/lodash/lodash.min.js"></script>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
     <script src="vendors/list.js/list.min.js"></script>
     <script src="assets/js/theme.js"></script>
-
   </body>
 
 </html>

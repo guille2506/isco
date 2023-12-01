@@ -1,8 +1,8 @@
 <?php
 include("session.php");
 include_once 'web/fun_varios.php';   
-$_SESSION['url_app_home']="http://localhost/insco/cliente/dashboard.php";
-$_SESSION['url_app_alumno']="http://localhost/insco/cliente/empleados.php";
+$_SESSION['url_app_home']="https://cursos.cuyosoft.me/cliente/dashboard.php";
+$_SESSION['url_app_alumno']="https://cursos.cuyosoft.me/cliente/empleados.php";
 $url = $_SESSION['url'].'v1/index.php/gesinpol_empleadox1';
 //var_dump($urlexternos);
 $header = [
@@ -135,6 +135,243 @@ echo "</pre>";
  }else{
   echo $err;
  }
+// 4 video clases grabadas por curso
+$url = $_SESSION['url'].'v1/index.php/gesinpol_temas_curso_id';
+//var_dump($urlexternos);
+$header = [
+  'Accept: application/json',
+  'Content-Type: application/x-www-form-urlencoded',
+  'Authorization: 3d524a53c110e4c22463b10ed32cef9d',
+]; 
+$parametros="curso=".$_REQUEST['curso']."&id=".$_REQUEST['tema'] ;
+//echo $parametros; //die();
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $url);
+curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+curl_setopt($ch, CURLOPT_FRESH_CONNECT, 1);
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+curl_setopt($ch, CURLOPT_POST, 1);
+//curl_setopt($ch, CURLOPT_POSTFIELDS,'user=admin01&pass=123456');
+curl_setopt($ch, CURLOPT_POSTFIELDS,$parametros);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+// pass header variable in curl method
+curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+curl_setopt($ch, CURLOPT_HEADER, false);
+
+$result = curl_exec($ch);
+$res    = json_decode($result, true);
+
+$err = curl_error($ch);
+curl_close($ch);
+if (!$err)
+ {
+   
+  // var_dump ($res['proveedor']);
+ /*
+echo "<pre>";
+print_r($res["temas"]);
+echo "</pre>";
+//die();
+*/
+   $cuerpo="";
+   $i=1;
+  
+    $categoria =  array();
+    foreach($res['temas'] as $cursos) {
+           $curso_enrolado =$cursos ['id'];
+           $curso_nombre =$cursos ['name'];   
+     }
+
+ }else{
+  echo $err;
+ }
+ 
+
+
+//die("salir");
+//var_dump($categoria);
+$curso_enrolado=$_REQUEST['curso'];
+// obtener el contenido del curso enrolado
+if ($curso_enrolado >0 ){
+    $url = $_SESSION['url'].'v1/index.php/gesinpol_items_tema_curso';
+//var_dump($urlexternos);
+$header = [
+  'Accept: application/json',
+  'Content-Type: application/x-www-form-urlencoded',
+  'Authorization: 3d524a53c110e4c22463b10ed32cef9d',
+]; 
+$parametros="curso=".$curso_enrolado."&tema=".$_REQUEST['tema'];
+//echo $parametros; //die();
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $url);
+curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+curl_setopt($ch, CURLOPT_FRESH_CONNECT, 1);
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+curl_setopt($ch, CURLOPT_POST, 1);
+//curl_setopt($ch, CURLOPT_POSTFIELDS,'user=admin01&pass=123456');
+curl_setopt($ch, CURLOPT_POSTFIELDS,$parametros);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+// pass header variable in curl method
+curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+curl_setopt($ch, CURLOPT_HEADER, false);
+
+$result = curl_exec($ch);
+$res    = json_decode($result, true);
+
+$err = curl_error($ch);
+curl_close($ch);
+if (!$err)
+ {
+   
+  // var_dump ($res['proveedor']);
+/*
+echo "<pre>";
+print_r($res["items"]);
+echo "</pre>";
+die();
+*/
+   $cuerpo="";
+   $i=1;
+  
+    $tema=  array();
+    $tema_id=array();
+    $tema_url=array();
+    //var_dump($res['items']);die();
+    $temaurl=  array();
+    $temaurl_id=array();
+    $temaurl_url=array();
+    $temaquiz=  array();
+    $temaquiz_id=array();
+    $temaquiz_url=array();
+    $temafeedback=  array();
+    $temafeedback_id=array();
+    $temafeedback_url=array();
+
+    $recurso0="";$recurso1="";$recurso2="";$recurso3="";$recurso4="";$recurso5="";$recurso6="";$recurso7="";
+    foreach($res['items'] as $items_tema) {
+        if ($items_tema['name']=="videotime"){
+            $nombre="";$id="";
+            $url = $_SESSION['url'].'v1/index.php/gesinpol_curso_videotimevisible';	
+            $parametros="course=".$_REQUEST['curso']."&id=".$_REQUEST['tema'];
+            //echo $parametros; //die();
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+            curl_setopt($ch, CURLOPT_FRESH_CONNECT, 1);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            //curl_setopt($ch, CURLOPT_POSTFIELDS,'user=admin01&pass=123456');
+            curl_setopt($ch, CURLOPT_POSTFIELDS,$parametros);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+            // pass header variable in curl method
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+            curl_setopt($ch, CURLOPT_HEADER, false);
+
+            $result = curl_exec($ch);
+            $res    = json_decode($result, true);
+
+            $err = curl_error($ch);
+            curl_close($ch);
+/*   
+echo "<pre>";
+print_r($res["curso_page"]);
+echo "</pre>";
+die();
+*/
+
+            if (!$err)
+            { 				
+                $temavideo=  array();
+                $temavideo_id=array();
+                $temavideo_url=array();	
+                $temavideo_minutos=array();	
+                foreach($res['curso_page'] as $quiz) {
+                        $nombre=$quiz['name'];
+                        $id=$quiz['id'];
+                        $minutos=$quiz['intro'];
+               // $url=$quiz['content'];
+                $temavideo[]['nombre'] = $nombre;
+                $temavideo_id[]['id'] = $id;
+                $temavideo_url[]['url'] = $url;
+                $temavideo_minutos[]['minutos'] = $minutos;
+                }
+                $recurso0=$items_tema['name'];
+            }
+         }	  
+
+         
+
+
+         if ($items_tema['name']=="book"){
+            $nombre="";$id="";
+            $url = $_SESSION['url'].'v1/index.php/gesinpol_curso_bookvisible';	
+            $parametros="course=".$_REQUEST['curso']."&id=".$_REQUEST['tema'];
+            //echo $parametros; //die();
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+            curl_setopt($ch, CURLOPT_FRESH_CONNECT, 1);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            //curl_setopt($ch, CURLOPT_POSTFIELDS,'user=admin01&pass=123456');
+            curl_setopt($ch, CURLOPT_POSTFIELDS,$parametros);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+            // pass header variable in curl method
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+            curl_setopt($ch, CURLOPT_HEADER, false);
+
+            $result = curl_exec($ch);
+            $res    = json_decode($result, true);
+
+            $err = curl_error($ch);
+            curl_close($ch);
+/*      
+echo "<pre>";
+print_r($res["curso_page"]);
+echo "</pre>";
+die();
+*/
+
+            if (!$err)
+            { 				
+                $temabook=  array();
+                $temabook_id=array();
+                $temabook_url=array();	
+
+                foreach($res['curso_book'] as $quiz) {
+                        $nombre=$quiz['name'];
+                $id=$quiz['id'];
+               // $url=$quiz['content'];
+                $temabook[]['nombre'] = $nombre;
+                $temabook_id[]['id'] = $id;
+                $temabook_url[]['url'] = $url;
+                }
+                $recurso4=$items_tema['name'];
+            }
+         }	  
+         
+         
+		
+		 $recurso=$items_tema['name'];
+        //$tema[]['nombre'] = $items_tema['name'];
+     }
+        
+//var_dump($tema[]['nombre'] );die();
+ }else{
+  echo $err;
+ }
+//var_dump($tema);
+//die();
+}
+ 
 ?>
 <!DOCTYPE html>
 <html data-bs-theme="light" lang="en-US" dir="ltr">
@@ -236,15 +473,14 @@ echo "</pre>";
           </div>         
           
           <div class="card mb-3">
-            <div class="bg-holder d-none d-lg-block bg-card" style="background-image:url(assets/img/icons/spot-illustrations/corner-4.png);">
-            </div>
+          <div class="bg-holder d-none d-lg-block bg-card">
+                        </div>
             <!--/.bg-holder-->
 
             <div class="card-body position-relative">
               <div class="row">
                 <div class="col-lg-8">
-                  <h3>Empleado: <?php echo $empleado;?></h3>
-                  <p class="mb-0">Documentation and examples for opt-in styling of tables with Falcon.</p><a class="btn btn-link btn-sm ps-0 mt-2" href="https://getbootstrap.com/docs/5.3/content/tables/" target="_blank">Tables on Bootstrap<span class="fas fa-chevron-right ms-1 fs--2"></span></a>
+                  <h3>Video Clases Grabadas</h3>
                 </div>
               </div>
             </div>
@@ -255,88 +491,58 @@ echo "</pre>";
  
 
 <!-- tabla doble empleados y cursos -->
-
-          <div class="card mb-3">
-            <div class="card-header border-bottom">
-              <div class="row flex-between-end">
-                <div class="col-auto align-self-center">
-                  <h5 class="mb-0" data-anchor="data-anchor">Calificaciones del curso</h5>
-                  <p class="mb-0 pt-1 mt-2 mb-0">Use <code>.table-responsive</code> for horizontally scrolling tables.And use <code>.table-responsive{-sm|-md|-lg|-xl|-xxl} </code> as needed to create responsive tables up to a particular breakpoint</p>
-                </div>
-                <div class="col-auto ms-auto">
-                  <div class="nav nav-pills nav-pills-falcon flex-grow-1 mt-2" role="tablist">
-                    <button class="btn btn-sm active" data-bs-toggle="pill" data-bs-target="#dom-ebd7cae0-f4cb-4425-91da-b656fcb40d10" type="button" role="tab" aria-controls="dom-ebd7cae0-f4cb-4425-91da-b656fcb40d10" aria-selected="true" id="tab-dom-ebd7cae0-f4cb-4425-91da-b656fcb40d10">Preview</button>
-                    <button class="btn btn-sm" data-bs-toggle="pill" data-bs-target="#dom-16c91512-0455-442e-9295-0d2d26d0c97c" type="button" role="tab" aria-controls="dom-16c91512-0455-442e-9295-0d2d26d0c97c" aria-selected="false" id="tab-dom-16c91512-0455-442e-9295-0d2d26d0c97c">Code</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="card-body pt-0">
-              <div class="tab-content">
-                <div class="tab-pane preview-tab-pane active" role="tabpanel" aria-labelledby="tab-dom-ebd7cae0-f4cb-4425-91da-b656fcb40d10" id="dom-ebd7cae0-f4cb-4425-91da-b656fcb40d10">
-                  <div class="table-responsive scrollbar">
-                  <table class="table table-dashboard mb-0 table-borderless fs--1 border-200">
+<div class="card mb-3">
+<table class="table table-dashboard mb-0 table-borderless fs--1 border-200">
                       <thead class="bg-light">
                         <tr class="text-900">
-                          <th>Actividad</th>
-                          <th class="pe-x1 text-end" style="width: 8rem">Calificacion</th>
-                          <th class="text-end">Fecha Inicio</th>
-                          <th class="text-end">Fecha Final</th>
-                          <th class="pe-x1 text-end" style="width: 8rem">Nota Final</th>
+                          <th>Video Clase</th>
                         </tr>
                       </thead>
                       <tbody>
-                      <?php 
-$url = $_SESSION['url'].'v1/index.php/insco_notas_cuestionarios_tareas';
-$parametros="empleado=".$_SESSION['idmoodle'] ."&curso=".$_REQUEST['curso'] ;
-$res_completo = resulrow($url, $parametros);
-$completado=0;
-$idm=0;
-$idmc=0;
-foreach ($res_completo["notas"] as $value) {
-  $nombre = $value['name'];  
-  $grade= $value['grade'];
-  $tipo=$value['tipo'];
-  $fecha_inicio=$value['fecha_inicio'];
-  $fecha_final=$value['fecha_fin'];
-  $nota=$value['nota'];
-?>
-                      <tr class="border-bottom border-200">
+                      <?php if ($recurso0=="videotime"){
+                            for ( $i = 0; $i < count($temavideo); $i++ ) {  
+                              $url = $_SESSION['url'].'v1/index.php/gesinpol_empleado_progreso_modulo';
+                              $parametros="empleado=".$_SESSION['idmoodle'] ."&curso=".$_REQUEST['curso']."&tema=".$_REQUEST['tema']."&modulo=".$temavideo_id[$i]['id'] ;
+                              $res_completo = resulrow($url, $parametros);
+                              $completado=0;
+                              $idm=0;
+                              $idmc=0;
+                              foreach ($res_completo["completado"] as $value) {
+                                $completado = $value['completionstate'];  
+                                $idm= $value['idm'];
+                                $idmc= $value['idmc'];
+                              }
+                              $url = $_SESSION['url'].'v1/index.php/gesinpol_empleado_sin_progreso_modulo';
+                              $parametros="curso=".$_REQUEST['curso']."&tema=".$_REQUEST['tema']."&modulo=".$temavideo_id[$i]['id'] ;
+                              $res_completo = resulrow($url, $parametros);                         
+                              
+                              foreach ($res_completo["sin_completado"] as $value) {                                
+                                $idm= $value['idm'];                                
+                              }
+                              
+                  ?>
+                        <tr class="border-bottom border-200">
                           <td>
-                            <div class="d-flex align-items-center position-relative"><img class="rounded-1 border border-200" src="assets/img/products/12.png" width="60" alt="">
+                            <div class="d-flex align-items-center position-relative">
+                           <img class="rounded-1 border border-200" src="assets/img/otro_icons/video.png" alt="" width="60">
                               <div class="flex-1 ms-3">
-                                <h6 class="mb-1 fw-semi-bold"><a class="text-dark stretched-link" href="#"><?php echo $nombre;?></a></h6>
-                                <p class="fw-semi-bold mb-0 text-500"><?php echo $tipo;?></p>
+                                <h6 class="mb-1 fw-semi-bold text-nowrap">
+                                  <a class="text-900 stretched-link" href="video_off.php?video=<?php echo $temavideo_id[$i]['id'];?>&curso=<?php echo $_REQUEST['curso'];?>&titulo='<?php echo $temavideo[$i]['nombre'];?>'&tema=<?php echo $_REQUEST['tema'];?>"> 
+                                    <?php echo $temavideo[$i]['nombre'];?> </a>
+                                  </h6>
+                                <p class="fw-semi-bold mb-0 text-500">Tablet</p>
                               </div>
                             </div>
-                          </td>
-                          <td class="align-middle pe-x1">
-                            <div class="d-flex align-items-center">                             
-                              <div class="fw-semi-bold ms-2"><?php echo $grade;?></div>
-                            </div>
-                          </td>
-                          <td class="align-middle text-end fw-semi-bold"><?php echo $fecha_inicio;?></td>
-                          <td class="align-middle text-end fw-semi-bold"><?php echo $fecha_final;?></td>
-                          <td class="align-middle pe-x1">
-                            <div class="d-flex align-items-center">                             
-                              <div class="fw-semi-bold ms-2"><?php echo $nota;?></div>
-                            </div>
-                          </td>
+                          </td>                         
                         </tr>
-                          <?php }?>
+                        <?php }}?> 
                       </tbody>
                     </table>
-                  </div>
-                </div>
-                <div class="tab-pane code-tab-pane" role="tabpanel" aria-labelledby="tab-dom-16c91512-0455-442e-9295-0d2d26d0c97c" id="dom-16c91512-0455-442e-9295-0d2d26d0c97c">
-                  
-                </div>
-              </div>
-            </div>
           </div>
+         
           <div class="card mb-3">
           <?php 
-          if (count($res_completo["notas"])==0){ echo "No hay disponible datos en este momento.";}
+          if ($recurso0==""){ echo "No hay disponible datos en este momento.";}
           ?>
           <br/><br/><br/><br/><br/><br/><br/><br/><br/></div>
           <div class="card mb-3"></div>

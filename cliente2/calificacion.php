@@ -135,131 +135,6 @@ echo "</pre>";
  }else{
   echo $err;
  }
-
- //==== obtener encuesta final
- $curso_enrolado=$_REQUEST['curso'];
-// obtener el contenido del curso enrolado
-if ($curso_enrolado >0 ){
-    $url = $_SESSION['url'].'v1/index.php/gesinpol_items_tema_curso';
-//var_dump($urlexternos);
-$header = [
-  'Accept: application/json',
-  'Content-Type: application/x-www-form-urlencoded',
-  'Authorization: 3d524a53c110e4c22463b10ed32cef9d',
-]; 
-$parametros="curso=".$curso_enrolado."&tema=".$_REQUEST['tema'];
-//echo $parametros; //die();
-$ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, $url);
-curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-curl_setopt($ch, CURLOPT_FRESH_CONNECT, 1);
-curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-curl_setopt($ch, CURLOPT_POST, 1);
-//curl_setopt($ch, CURLOPT_POSTFIELDS,'user=admin01&pass=123456');
-curl_setopt($ch, CURLOPT_POSTFIELDS,$parametros);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-// pass header variable in curl method
-curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
-curl_setopt($ch, CURLOPT_HEADER, false);
-
-$result = curl_exec($ch);
-$res    = json_decode($result, true);
-
-$err = curl_error($ch);
-curl_close($ch);
-if (!$err)
- {
-   
-  // var_dump ($res['proveedor']);
-/*
-echo "<pre>";
-print_r($res["items"]);
-echo "</pre>";
-die();
-*/
-   $cuerpo="";
-   $i=1;
-  
-    $tema=  array();
-    $tema_id=array();
-    $tema_url=array();
-    //var_dump($res['items']);die();
-    $temaurl=  array();
-    $temaurl_id=array();
-    $temaurl_url=array();
-    $temaquiz=  array();
-    $temaquiz_id=array();
-    $temaquiz_url=array();
-    $temafeedback=  array();
-    $temafeedback_id=array();
-    $temafeedback_url=array();
-
-    $recurso0="";$recurso1="";$recurso2="";$recurso3="";$recurso4="";$recurso5="";$recurso6="";$recurso7="";
-    foreach($res['items'] as $items_tema) {
-      //page
-      if ($items_tema['name']=="page"){
-        $nombre="";$id="";
-  $url = $_SESSION['url'].'v1/index.php/gesinpol_curso_pagevisible';	
-  $parametros="course=".$curso_enrolado."&id=".$_REQUEST['tema'];
-  //echo $parametros; //die();
-  $ch = curl_init();
-  curl_setopt($ch, CURLOPT_URL, $url);
-  curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-  curl_setopt($ch, CURLOPT_FRESH_CONNECT, 1);
-  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-  curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-  curl_setopt($ch, CURLOPT_POST, 1);
-  //curl_setopt($ch, CURLOPT_POSTFIELDS,'user=admin01&pass=123456');
-  curl_setopt($ch, CURLOPT_POSTFIELDS,$parametros);
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-  curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-  // pass header variable in curl method
-  curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
-  curl_setopt($ch, CURLOPT_HEADER, false);
-
-  $result = curl_exec($ch);
-  $res    = json_decode($result, true);
-
-  $err = curl_error($ch);
-  curl_close($ch);
-/*  
-echo "<pre>";
-print_r($res["curso_page"]);
-echo "</pre>";
-//die();
-*/
-
-  if (!$err)
-  { 				
-      foreach($res['curso_page'] as $quiz) {
-            $nombre=$quiz['name'];
-            $id=$quiz['id'];
-            $url=$quiz['content'];
-            $url=$quiz['intro'];
-            $url_encuesta=$quiz['content'];
-            $tema[]['nombre'] = $nombre;
-            $tema_id[]['id'] = $id;
-            $tema_url[]['url'] = $url;
-            }
-            $recurso1=$items_tema['name'];
-  }
-     }	
-     
-     
-     /*
-     select * from mdl_url where course=126;
-     select * from mdl_book where course=126;
-     */
-     
-      // end page
-
-    }
-  }
-}
- // end
- //echo "valor" .$url_encuesta;
 ?>
 <!DOCTYPE html>
 <html data-bs-theme="light" lang="en-US" dir="ltr">
@@ -361,15 +236,15 @@ echo "</pre>";
           </div>         
           
           <div class="card mb-3">
-            <div class="bg-holder d-none d-lg-block bg-card" style="background-image:url(assets/img/icons/spot-illustrations/corner-4.png);">
-            </div>
+          <div class="bg-holder d-none d-lg-block bg-card">
+            
+          </div>
             <!--/.bg-holder-->
 
             <div class="card-body position-relative">
               <div class="row">
                 <div class="col-lg-8">
-                  <h3>Empleado: <?php echo $empleado;?></h3>
-                  <p class="mb-0">Documentation and examples for opt-in styling of tables with Falcon.</p><a class="btn btn-link btn-sm ps-0 mt-2" href="https://getbootstrap.com/docs/5.3/content/tables/" target="_blank">Tables on Bootstrap<span class="fas fa-chevron-right ms-1 fs--2"></span></a>
+                  <h3>Calificacion</h3>
                 </div>
               </div>
             </div>
@@ -385,14 +260,10 @@ echo "</pre>";
             <div class="card-header border-bottom">
               <div class="row flex-between-end">
                 <div class="col-auto align-self-center">
-                  <h5 class="mb-0" data-anchor="data-anchor">Encuesta Final del Curso</h5>
-                  <p class="mb-0 pt-1 mt-2 mb-0">Use <code>.table-responsive</code> for horizontally scrolling tables.And use <code>.table-responsive{-sm|-md|-lg|-xl|-xxl} </code> as needed to create responsive tables up to a particular breakpoint</p>
+                  <h5 class="mb-0" data-anchor="data-anchor">Cuestionarios</h5>
                 </div>
                 <div class="col-auto ms-auto">
-                  <div class="nav nav-pills nav-pills-falcon flex-grow-1 mt-2" role="tablist">
-                    <button class="btn btn-sm active" data-bs-toggle="pill" data-bs-target="#dom-ebd7cae0-f4cb-4425-91da-b656fcb40d10" type="button" role="tab" aria-controls="dom-ebd7cae0-f4cb-4425-91da-b656fcb40d10" aria-selected="true" id="tab-dom-ebd7cae0-f4cb-4425-91da-b656fcb40d10">Preview</button>
-                    <button class="btn btn-sm" data-bs-toggle="pill" data-bs-target="#dom-16c91512-0455-442e-9295-0d2d26d0c97c" type="button" role="tab" aria-controls="dom-16c91512-0455-442e-9295-0d2d26d0c97c" aria-selected="false" id="tab-dom-16c91512-0455-442e-9295-0d2d26d0c97c">Code</button>
-                  </div>
+                  
                 </div>
               </div>
             </div>
@@ -400,60 +271,58 @@ echo "</pre>";
               <div class="tab-content">
                 <div class="tab-pane preview-tab-pane active" role="tabpanel" aria-labelledby="tab-dom-ebd7cae0-f4cb-4425-91da-b656fcb40d10" id="dom-ebd7cae0-f4cb-4425-91da-b656fcb40d10">
                   <div class="table-responsive scrollbar">
-                  <?php
-                  if ($recurso1=="page"){
-                    for ( $i = 0; $i < count($tema); $i++ ) {                                                        
-                      ?>
                   <table class="table table-dashboard mb-0 table-borderless fs--1 border-200">
                       <thead class="bg-light">
                         <tr class="text-900">
-                          <th>Nombre</th>
-                         
+                          <th>Actividad</th>
+                          <th class="pe-x1 text-end" style="width: 8rem">Calificacion</th>
+                          <th class="text-end">Fecha Inicio</th>
+                          <th class="text-end">Fecha Final</th>
+                          <th class="pe-x1 text-end" style="width: 8rem">Nota Final</th>
                         </tr>
                       </thead>
                       <tbody>
-                 
-                  
+                      <?php 
+$url = $_SESSION['url'].'v1/index.php/insco_notas_cuestionarios_tareas';
+$parametros="empleado=".$_SESSION['idmoodle'] ."&curso=".$_REQUEST['curso'] ;
+$res_completo = resulrow($url, $parametros);
+$completado=0;
+$idm=0;
+$idmc=0;
+foreach ($res_completo["notas"] as $value) {
+  $nombre = $value['name'];  
+  $grade= $value['grade'];
+  $tipo=$value['tipo'];
+  $fecha_inicio=$value['fecha_inicio'];
+  $fecha_final=$value['fecha_fin'];
+  $nota=$value['nota'];
+?>
                       <tr class="border-bottom border-200">
                           <td>
                             <div class="d-flex align-items-center position-relative"><img class="rounded-1 border border-200" src="assets/img/products/12.png" width="60" alt="">
                               <div class="flex-1 ms-3">
-                                <h6 class="mb-1 fw-semi-bold"><a class="text-dark stretched-link" href="#"><?php echo $tema[$i]['nombre'];?> </a></h6>
-                                <p class="fw-semi-bold mb-0 text-500"></p>
+                                <h6 class="mb-1 fw-semi-bold"><a class="text-dark stretched-link" href="#"><?php echo $nombre;?></a></h6>
+                                <p class="fw-semi-bold mb-0 text-500"><?php echo $tipo;?></p>
                               </div>
                             </div>
                           </td>
-                         
+                          <td class="align-middle pe-x1">
+                            <div class="d-flex align-items-center">                             
+                              <div class="fw-semi-bold ms-2"><?php echo $grade;?></div>
+                            </div>
+                          </td>
+                          <td class="align-middle text-end fw-semi-bold"><?php echo $fecha_inicio;?></td>
+                          <td class="align-middle text-end fw-semi-bold"><?php echo $fecha_final;?></td>
+                          <td class="align-middle pe-x1">
+                            <div class="d-flex align-items-center">                             
+                              <div class="fw-semi-bold ms-2"><?php echo $nota;?></div>
+                            </div>
+                          </td>
                         </tr>
-                        
+                          <?php }?>
                       </tbody>
                     </table>
-                    <style>
-    .embed-container {
-    position: relative;
-    padding-bottom: 56.25%;
-    height: 0;
-    overflow: hidden;
-}
-.16by9 {
-    padding-bottom: 56.25%;
-}
-.4by3 {
-    padding-bottom: 75%;
-}
-.embed-container iframe {
-    position: absolute;
-    top:0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
-    </style>
-                    <div class="embed-container">
-                    <?php echo $url_encuesta;?>             
-                    </div>
-                    <?php }}?>
-                </div>
+                  </div>
                 </div>
                 <div class="tab-pane code-tab-pane" role="tabpanel" aria-labelledby="tab-dom-16c91512-0455-442e-9295-0d2d26d0c97c" id="dom-16c91512-0455-442e-9295-0d2d26d0c97c">
                   
@@ -462,7 +331,9 @@ echo "</pre>";
             </div>
           </div>
           <div class="card mb-3">
-          
+          <?php 
+          if (count($res_completo["notas"])==0){ echo "No hay disponible datos en este momento.";}
+          ?>
           <br/><br/><br/><br/><br/><br/><br/><br/><br/></div>
           <div class="card mb-3"></div>
           <div class="card mb-3"></div>

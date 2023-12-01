@@ -652,21 +652,93 @@ foreach($res_calendario["videoclase"] as $usuario) {
             </div>
           </div>         
           <!-- comienza-->
+          
           <div class="card mb-3">
-            <div class="card-header border-bottom">
-              <div class="row flex-between-end">
-                <div class="col-auto align-self-center">
-                  <h5 class="mb-0" data-anchor="data-anchor">Cursos</h5>
-                  <p class="mb-0 pt-1 mt-2 mb-0">Use <code>.table-responsive</code> for horizontally scrolling tables.And use <code>.table-responsive{-sm|-md|-lg|-xl|-xxl} </code> as needed to create responsive tables up to a particular breakpoint</p>
-                </div>
-                <div class="col-auto ms-auto">
-                  <div class="nav nav-pills nav-pills-falcon flex-grow-1 mt-2" role="tablist">
-                    <button class="btn btn-sm active" data-bs-toggle="pill" data-bs-target="#dom-ebd7cae0-f4cb-4425-91da-b656fcb40d10" type="button" role="tab" aria-controls="dom-ebd7cae0-f4cb-4425-91da-b656fcb40d10" aria-selected="true" id="tab-dom-ebd7cae0-f4cb-4425-91da-b656fcb40d10">Preview</button>
-                    <button class="btn btn-sm" data-bs-toggle="pill" data-bs-target="#dom-16c91512-0455-442e-9295-0d2d26d0c97c" type="button" role="tab" aria-controls="dom-16c91512-0455-442e-9295-0d2d26d0c97c" aria-selected="false" id="tab-dom-16c91512-0455-442e-9295-0d2d26d0c97c">Code</button>
-                  </div>
+           <!-- <div class="bg-holder d-none d-lg-block bg-card" style="background-image:url(assets/img/icons/spot-illustrations/corner-4.png);">-->
+           <div class="bg-holder d-none d-lg-block bg-card">
+
+           </div>
+            <!--/.bg-holder-->
+
+            <div class="card-body position-relative">
+              <div class="row">
+                <div class="col-lg-8">
+                  <h3>Bienvenido a nuestro Curso</h3>
                 </div>
               </div>
             </div>
+          </div>
+         <!-- nuevo con imagen y estadistica -->
+         <div class="row g-0">
+            <div class="col-sm-6 col-xxl-3 pe-sm-2 mb-3 mb-xxl-0">
+              <div class="card">                
+                <div class="card-body py-2">
+               
+                      <div class="grid-container">
+                <img src="assets/img/otro_icons/cajas-de-carton-industria-embalaje.jpg"  alt="" style="width: 560px;height:250px;">
+        </div>
+
+                </div>
+                             </div>
+            </div>
+            <div class="col-sm-6 col-xxl-3 ps-sm-2 order-xxl-1 mb-3 mb-xxl-0">
+              <div class="card h-100">
+                <div class="card-header bg-light d-flex flex-between-center py-2">
+                <span class="far fa-sticky-note"></span><h6 class="mb-0">Requisitos para superar el curso</h6>
+                  <div class="dropdown font-sans-serif btn-reveal-trigger">
+                    <button class="btn btn-link text-600 btn-sm dropdown-toggle dropdown-caret-none btn-reveal" type="button" id="dropdown-bandwidth-saved" data-bs-toggle="dropdown" data-boundary="viewport" aria-haspopup="true" aria-expanded="false"><svg class="svg-inline--fa fa-ellipsis-h fa-w-16 fs--2" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="ellipsis-h" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8 0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8 0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"></path></svg><!-- <span class="fas fa-ellipsis-h fs--2"></span> Font Awesome fontawesome.com --></button>
+                    <div class="dropdown-menu dropdown-menu-end border py-2" aria-labelledby="dropdown-bandwidth-saved"><a class="dropdown-item" href="#!">View</a><a class="dropdown-item" href="#!">Export</a>
+                      <div class="dropdown-divider"></div><a class="dropdown-item text-danger" href="#!">Remove</a>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body py-2">
+                <div class="row g-0 align-items-center py-2 position-relative border-bottom border-200">
+                    <div class="col ps-x1 py-1 position-static">
+                      <div class="d-flex align-items-center">
+                        <div class="avatar avatar-xl me-3">
+                        <span class="far fa-sticky-note"></span>
+                      </div>
+                        <div class="flex-1">
+                        <h6 class="mb-0 d-flex align-items-center"><a class="text-800 stretched-link" href="#!">Completar el 100% de las actividades</a><span class="badge rounded-pill ms-2 bg-200 text-primary">38%</span></h6>
+                       </div>
+                      </div>
+                    </div>                    
+                  </div>
+                  <div class="row g-0 align-items-center py-2 position-relative border-bottom border-200">
+                    <div class="col ps-x1 py-1 position-static">
+                      <div class="d-flex align-items-center">
+                        <div class="avatar avatar-xl me-3">
+                        <span class="far fa-sticky-note"></span>
+                      </div>
+                        <div class="flex-1">
+                        <h6 class="mb-0 d-flex align-items-center"><a class="text-800 stretched-link" href="#!">Superar el 100% de los ejercicios</a><span class="badge rounded-pill ms-2 bg-200 text-primary">0%</span></h6>
+                        </div>
+                      </div>
+                    </div>                    
+                  </div>
+                  <div class="row g-0 align-items-center py-2 position-relative border-bottom border-200">
+                    <div class="col ps-x1 py-1 position-static">
+                      <div class="d-flex align-items-center">
+                        <div class="avatar avatar-xl me-3">
+                        <span class="far fa-sticky-note"></span>
+                      </div>
+                        <div class="flex-1">
+                        <h6 class="mb-0 d-flex align-items-center"><a class="text-800 stretched-link" href="#!">Superar el 100% de los ejercicios</a><span class="badge rounded-pill ms-2 bg-200 text-primary">Sin Calificar</span></h6>
+                        </div>
+                      </div>
+                    </div>                    
+                  </div>
+                 <!-- --> 
+               
+                  
+
+                </div>
+              </div>
+            </div>
+       <!-- end  ultimo visto -->   
+          <!-- end -->
+          <div class="card mb-3">
             <div class="card-body pt-0">
               <div class="tab-content">
                 <div class="tab-pane preview-tab-pane active" role="tabpanel" aria-labelledby="tab-dom-ebd7cae0-f4cb-4425-91da-b656fcb40d10" id="dom-ebd7cae0-f4cb-4425-91da-b656fcb40d10">
@@ -692,8 +764,8 @@ foreach($res_calendario["videoclase"] as $usuario) {
                     ?>
                   <table class="table table-dashboard mb-0 table-borderless fs--1 border-200">
                       <thead class="bg-light">
-                        <tr class="text-900">
-                          <th>Cursos</th>                          
+                        <tr class="text-900" style="background-color: orange;">
+                          <th>Elige Formaciòn</th>                          
                           <th class="pe-x1 text-end" style="width: 8rem">Progreso en (%)</th>
                         </tr>
                       </thead>
@@ -704,7 +776,7 @@ foreach($res_calendario["videoclase"] as $usuario) {
                             <div class="d-flex align-items-center position-relative"><img class="rounded-1 border border-200" src="assets/img/products/12.png" width="60" alt="">
                               <div class="flex-1 ms-3">
                                 <h6 class="mb-1 fw-semi-bold"><a class="text-dark stretched-link" href="area_cursos_new.php?curso=<?php echo $_SESSION['curso'];?>"><?php echo $curso;?></a></h6>
-                                <p class="fw-semi-bold mb-0 text-500">Landing</p>
+                                
                               </div>
                             </div>
                           </td>
@@ -729,11 +801,13 @@ foreach($res_calendario["videoclase"] as $usuario) {
               </div>
             </div>
           </div>
+                  </div>
        <!-- end curso -->
        <div class="row g-0">
             <div class="col-sm-6 col-xxl-3 pe-sm-2 mb-3 mb-xxl-0">
               <div class="card">
                 <div class="card-header d-flex flex-between-center bg-light py-2">
+                  <span class="far fa-calendar-alt"></span>
                   <h6 class="mb-0">Ultimo visto</h6>
                   <div class="dropdown font-sans-serif btn-reveal-trigger">
                     <button class="btn btn-link text-600 btn-sm dropdown-toggle dropdown-caret-none btn-reveal" type="button" id="dropdown-active-user" data-bs-toggle="dropdown" data-boundary="viewport" aria-haspopup="true" aria-expanded="false"><svg class="svg-inline--fa fa-ellipsis-h fa-w-16 fs--2" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="ellipsis-h" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8 0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8 0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"></path></svg><!-- <span class="fas fa-ellipsis-h fs--2"></span> Font Awesome fontawesome.com --></button>
@@ -757,7 +831,7 @@ foreach($res_calendario["videoclase"] as $usuario) {
                   <div class="d-flex align-items-center position-relative mb-3">
                     <div class="avatar avatar-2xl status-online">
                     <img class="rounded-circle" src="assets/img/otro_icons/video.png" alt="">
-
+                    
                     </div>
                     <div class="flex-1 ms-3">
                       <h6 class="mb-0 fw-semi-bold">
@@ -775,7 +849,8 @@ foreach($res_calendario["videoclase"] as $usuario) {
             <div class="col-sm-6 col-xxl-3 ps-sm-2 order-xxl-1 mb-3 mb-xxl-0">
               <div class="card h-100">
                 <div class="card-header bg-light d-flex flex-between-center py-2">
-                  <h6 class="mb-0">Actividades Meet Google</h6>
+                <span class="fas fa-video"></span>  
+                <h6 class="mb-0">Actividades Meet Google</h6>
                   <div class="dropdown font-sans-serif btn-reveal-trigger">
                     <button class="btn btn-link text-600 btn-sm dropdown-toggle dropdown-caret-none btn-reveal" type="button" id="dropdown-bandwidth-saved" data-bs-toggle="dropdown" data-boundary="viewport" aria-haspopup="true" aria-expanded="false"><svg class="svg-inline--fa fa-ellipsis-h fa-w-16 fs--2" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="ellipsis-h" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8 0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8 0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"></path></svg><!-- <span class="fas fa-ellipsis-h fs--2"></span> Font Awesome fontawesome.com --></button>
                     <div class="dropdown-menu dropdown-menu-end border py-2" aria-labelledby="dropdown-bandwidth-saved"><a class="dropdown-item" href="#!">View</a><a class="dropdown-item" href="#!">Export</a>
@@ -832,7 +907,7 @@ foreach($res_calendario["videoclase"] as $usuario) {
             </div>
        <!-- end  ultimo visto -->   
 		  <div class="card mb-3">
-            <div class="bg-holder d-none d-lg-block bg-card" style="background-image:url(assets/img/icons/spot-illustrations/corner-4.png);">
+            <div class="bg-holder d-none d-lg-block bg-card">
             </div>
             <!--/.bg-holder-->
 
@@ -844,17 +919,18 @@ foreach($res_calendario["videoclase"] as $usuario) {
               </div>
             </div>
           </div>
-          <div class="card mb-3"><br/><br/><br/><br/><br/><br/><br/><br/><br/></div>
-          <div class="card mb-3"><br/><br/><br/><br/><br/><br/><br/><br/><br/></div>
+         
 
           <!--end-->
           <footer class="footer">
             <div class="row g-0 justify-content-between fs--1 mt-4 mb-3">
               <div class="col-12 col-sm-auto text-center">
-                <p class="mb-0 text-600">Thank you for creating with Falcon <span class="d-none d-sm-inline-block">| </span><br class="d-sm-none" /> 2023 &copy; <a href="https://themewagon.com">Themewagon</a></p>
+              <!--  <p class="mb-0 text-600">Thank you for creating with Falcon <span class="d-none d-sm-inline-block">| </span><br class="d-sm-none" /> 2023 &copy; <a href="https://themewagon.com">Themewagon</a></p>
+              -->
+            
               </div>
               <div class="col-12 col-sm-auto text-center">
-                <p class="mb-0 text-600">v3.17.0</p>
+                <!--<p class="mb-0 text-600">v3.17.0</p>-->
               </div>
             </div>
           </footer>

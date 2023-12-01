@@ -1,149 +1,16 @@
 <?php
 include("session.php");
-include_once 'web/fun_varios.php';   
-$_SESSION['url_app_home']="https://cursos.cuyosoft.me/cliente/dashboard.php";
-$_SESSION['url_app_alumno']="https://cursos.cuyosoft.me/cliente/empleados.php";
-$url = $_SESSION['url'].'v1/index.php/gesinpol_empleadox1';
+$_SESSION['url_app_temas']="https://cursos.cuyosoft.me/cliente/area_cursos_new.php?curso=".$_REQUEST['curso'];
+
+$url = $_SESSION['url'].'v1/index.php/gesinpol_cursosxcurso';
 //var_dump($urlexternos);
 $header = [
   'Accept: application/json',
   'Content-Type: application/x-www-form-urlencoded',
   'Authorization: 3d524a53c110e4c22463b10ed32cef9d',
 ]; 
-$parametros="usuario=".$_SESSION['idmoodle'];
-//echo $parametros; //die();
-$ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, $url);
-curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-curl_setopt($ch, CURLOPT_FRESH_CONNECT, 1);
-curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-curl_setopt($ch, CURLOPT_POST, 1);
-//curl_setopt($ch, CURLOPT_POSTFIELDS,'user=admin01&pass=123456');
-curl_setopt($ch, CURLOPT_POSTFIELDS,$parametros);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-// pass header variable in curl method
-curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
-curl_setopt($ch, CURLOPT_HEADER, false);
-
-$result = curl_exec($ch);
-$res    = json_decode($result, true);
-
-$err = curl_error($ch);
-curl_close($ch);
-if (!$err)
- {
-   
-   //var_dump ($res['usuarios']);
-/*
-echo "<pre>";
-print_r($res["empleado"]);
-echo "</pre>";
-*/
-   $cuerpo="";
-   $i=1;
-   foreach($res["empleado"] as $usuario) {
-		$empleado=$usuario["nombre"];
-    $empresa=$usuario["empresa"]; 
-    }   
- }else{
-  echo $err;
- }
-//2--- EMPRESA
-$url = $_SESSION['url'].'v1/index.php/gesinpol_empresax1';
-$parametros="empresa=".$empresa;
-//echo $parametros; //die();
-$ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, $url);
-curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-curl_setopt($ch, CURLOPT_FRESH_CONNECT, 1);
-curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-curl_setopt($ch, CURLOPT_POST, 1);
-//curl_setopt($ch, CURLOPT_POSTFIELDS,'user=admin01&pass=123456');
-curl_setopt($ch, CURLOPT_POSTFIELDS,$parametros);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-// pass header variable in curl method
-curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
-curl_setopt($ch, CURLOPT_HEADER, false);
-
-$result = curl_exec($ch);
-$res    = json_decode($result, true);
-
-$err = curl_error($ch);
-curl_close($ch);
-if (!$err)
- {
-   
-   //var_dump ($res['usuarios']);
-/*
-echo "<pre>";
-print_r($res["empleados"]);
-echo "</pre>";
-*/
-   $cuerpo="";   
-     foreach($res['empresa'] as $empresa) {
-         $empresa = $empresa['nombre'];        
-         
-      }
- }else{
-  echo $err;
- }
- //3
- // obtener los cursos contratados por la empresa
-$url = $_SESSION['url'].'v1/index.php/gesinpol_empleado_cursos';
-$parametros="empleado=".$_SESSION['idmoodle'];
-//echo $parametros; //die();
-$ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, $url);
-curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-curl_setopt($ch, CURLOPT_FRESH_CONNECT, 1);
-curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-curl_setopt($ch, CURLOPT_POST, 1);
-//curl_setopt($ch, CURLOPT_POSTFIELDS,'user=admin01&pass=123456');
-curl_setopt($ch, CURLOPT_POSTFIELDS,$parametros);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-// pass header variable in curl method
-curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
-curl_setopt($ch, CURLOPT_HEADER, false);
-
-$result = curl_exec($ch);
-$res    = json_decode($result, true);
-
-$err = curl_error($ch);
-curl_close($ch);
-if (!$err)
- {
-   
-   //var_dump ($res['usuarios']);
-/*
-echo "<pre>";
-print_r($res["cursos"]);
-echo "</pre>";
-*/
-   $cuerpo="";
-   $i=1;
-   foreach($res["cursos"] as $usuario) {
-		$curso=$usuario["fullname"];
-   
-	   
-    }   
- }else{
-  echo $err;
- }
-// 4 video clases grabadas por curso
-$url = $_SESSION['url'].'v1/index.php/gesinpol_temas_curso_id';
-//var_dump($urlexternos);
-$header = [
-  'Accept: application/json',
-  'Content-Type: application/x-www-form-urlencoded',
-  'Authorization: 3d524a53c110e4c22463b10ed32cef9d',
-]; 
-$parametros="curso=".$_REQUEST['curso']."&id=".$_REQUEST['tema'] ;
+$parametros="curso=".$_REQUEST['curso'];
+$curso_nombre="";
 //echo $parametros; //die();
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, $url);
@@ -169,40 +36,37 @@ if (!$err)
  {
    
   // var_dump ($res['proveedor']);
- /*
+/*
 echo "<pre>";
-print_r($res["temas"]);
+print_r($res["cursos"]);
 echo "</pre>";
-//die();
+die();
 */
    $cuerpo="";
    $i=1;
   
     $categoria =  array();
-    foreach($res['temas'] as $cursos) {
-           $curso_enrolado =$cursos ['id'];
-           $curso_nombre =$cursos ['name'];   
+    foreach($res['cursos'] as $cursos) {
+           $curso_enrolado =$_REQUEST['curso'];//$cursos ['id'];
+           $curso_nombre =$cursos ['fullname'];   
      }
 
  }else{
   echo $err;
  }
- 
 
-
-//die("salir");
-//var_dump($categoria);
-$curso_enrolado=$_REQUEST['curso'];
+ $curso_enrolado="";
+if ($curso_enrolado==""){$curso_enrolado=$_REQUEST['curso'];}
 // obtener el contenido del curso enrolado
 if ($curso_enrolado >0 ){
-    $url = $_SESSION['url'].'v1/index.php/gesinpol_items_tema_curso';
+    $url = $_SESSION['url'].'v1/index.php/gesinpol_temas_curso_usuario';
 //var_dump($urlexternos);
 $header = [
   'Accept: application/json',
   'Content-Type: application/x-www-form-urlencoded',
   'Authorization: 3d524a53c110e4c22463b10ed32cef9d',
 ]; 
-$parametros="curso=".$curso_enrolado."&tema=".$_REQUEST['tema'];
+$parametros="curso=".$curso_enrolado;
 //echo $parametros; //die();
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, $url);
@@ -230,148 +94,52 @@ if (!$err)
   // var_dump ($res['proveedor']);
 /*
 echo "<pre>";
-print_r($res["items"]);
+print_r($res["temas"]);
 echo "</pre>";
-die();
 */
    $cuerpo="";
    $i=1;
   
     $tema=  array();
-    $tema_id=array();
-    $tema_url=array();
-    //var_dump($res['items']);die();
-    $temaurl=  array();
-    $temaurl_id=array();
-    $temaurl_url=array();
-    $temaquiz=  array();
-    $temaquiz_id=array();
-    $temaquiz_url=array();
-    $temafeedback=  array();
-    $temafeedback_id=array();
-    $temafeedback_url=array();
-
-    $recurso0="";$recurso1="";$recurso2="";$recurso3="";$recurso4="";$recurso5="";$recurso6="";$recurso7="";
-    foreach($res['items'] as $items_tema) {
-        if ($items_tema['name']=="videotime"){
-            $nombre="";$id="";
-            $url = $_SESSION['url'].'v1/index.php/gesinpol_curso_videotimevisible';	
-            $parametros="course=".$_REQUEST['curso']."&id=".$_REQUEST['tema'];
-            //echo $parametros; //die();
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-            curl_setopt($ch, CURLOPT_FRESH_CONNECT, 1);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-            curl_setopt($ch, CURLOPT_POST, 1);
-            //curl_setopt($ch, CURLOPT_POSTFIELDS,'user=admin01&pass=123456');
-            curl_setopt($ch, CURLOPT_POSTFIELDS,$parametros);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-            // pass header variable in curl method
-            curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
-            curl_setopt($ch, CURLOPT_HEADER, false);
-
-            $result = curl_exec($ch);
-            $res    = json_decode($result, true);
-
-            $err = curl_error($ch);
-            curl_close($ch);
-/*   
-echo "<pre>";
-print_r($res["curso_page"]);
-echo "</pre>";
-die();
-*/
-
-            if (!$err)
-            { 				
-                $temavideo=  array();
-                $temavideo_id=array();
-                $temavideo_url=array();	
-                $temavideo_minutos=array();	
-                foreach($res['curso_page'] as $quiz) {
-                        $nombre=$quiz['name'];
-                        $id=$quiz['id'];
-                        $minutos=$quiz['intro'];
-               // $url=$quiz['content'];
-                $temavideo[]['nombre'] = $nombre;
-                $temavideo_id[]['id'] = $id;
-                $temavideo_url[]['url'] = $url;
-                $temavideo_minutos[]['minutos'] = $minutos;
-                }
-                $recurso0=$items_tema['name'];
-            }
-         }	  
-
-         
-
-
-         if ($items_tema['name']=="book"){
-            $nombre="";$id="";
-            $url = $_SESSION['url'].'v1/index.php/gesinpol_curso_bookvisible';	
-            $parametros="course=".$_REQUEST['curso']."&id=".$_REQUEST['tema'];
-            //echo $parametros; //die();
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-            curl_setopt($ch, CURLOPT_FRESH_CONNECT, 1);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-            curl_setopt($ch, CURLOPT_POST, 1);
-            //curl_setopt($ch, CURLOPT_POSTFIELDS,'user=admin01&pass=123456');
-            curl_setopt($ch, CURLOPT_POSTFIELDS,$parametros);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-            // pass header variable in curl method
-            curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
-            curl_setopt($ch, CURLOPT_HEADER, false);
-
-            $result = curl_exec($ch);
-            $res    = json_decode($result, true);
-
-            $err = curl_error($ch);
-            curl_close($ch);
-/*      
-echo "<pre>";
-print_r($res["curso_page"]);
-echo "</pre>";
-die();
-*/
-
-            if (!$err)
-            { 				
-                $temabook=  array();
-                $temabook_id=array();
-                $temabook_url=array();	
-
-                foreach($res['curso_book'] as $quiz) {
-                        $nombre=$quiz['name'];
-                $id=$quiz['id'];
-               // $url=$quiz['content'];
-                $temabook[]['nombre'] = $nombre;
-                $temabook_id[]['id'] = $id;
-                $temabook_url[]['url'] = $url;
-                }
-                $recurso4=$items_tema['name'];
-            }
-         }	  
-         
-         
-		
-		 $recurso=$items_tema['name'];
-        //$tema[]['nombre'] = $items_tema['name'];
+	$tema_id=  array();
+    $tema_summary=array();
+    foreach($res['temas'] as $temas) {
+          $mystring = $temas["name"];
+          $findme   = 'M1';
+					$pos_m1 = strpos($mystring, $findme);
+          $findme   = 'M2';
+					$pos_m2 = strpos($mystring, $findme);
+          $findme   = 'M3';
+					$pos_m3 = strpos($mystring, $findme);
+          $findme   = 'M4';
+					$pos_m4 = strpos($mystring, $findme);
+          $findme   = 'M5';
+					$pos_m5 = strpos($mystring, $findme);
+          $findme   = 'M6';
+					$pos_m6 = strpos($mystring, $findme);
+          $findme   = 'M7';
+					$pos_m7 = strpos($mystring, $findme);
+          $findme   = 'M8';
+					$pos_m8 = strpos($mystring, $findme);
+          $findme   = 'M9';
+					$pos_m9 = strpos($mystring, $findme);
+					//echo $mystring." : ".$pos_no_ver;
+					if (($pos_m1 === false) && ($pos_m2=== false) && ($pos_m3=== false)&& ($pos_m4=== false)&& ($pos_m5=== false)&& ($pos_m6=== false)&& ($pos_m7=== false)&& ($pos_m8=== false)&& ($pos_m9=== false)){
+            $tema[]['nombre'] = $temas['name'];
+            $tema_summary[]['summary'] = $temas['summary'];      
+            $tema_id[]['id'] = $temas['id'];
+					}
+      
      }
-        
-//var_dump($tema[]['nombre'] );die();
+
  }else{
   echo $err;
  }
 //var_dump($tema);
 //die();
 }
- 
+
+
 ?>
 <!DOCTYPE html>
 <html data-bs-theme="light" lang="en-US" dir="ltr">
@@ -428,6 +196,31 @@ die();
         userLinkRTL.setAttribute('disabled', true);
       }
     </script>
+    <style>
+        .grid-container{
+  display: grid;
+  height: 250px;
+  width: 420px;
+  margin: auto;
+}
+
+img{
+  width: 100%;
+}
+
+img:nth-child(1){
+  grid-area: 1 / 1;
+}
+
+img:nth-child(2){
+  width: 50px;
+  height:50px;
+  align-self: center;
+  justify-self: center;
+  grid-area: 1 / 1;
+  margin-top: 50px;
+}
+    </style>
   </head>
 
 
@@ -453,12 +246,11 @@ die();
       <!-- menu top-->
       <?php include("componentes/nav_top.php");?>
       <!-- end top-->
-          <!-- comienza-->
-          <div class="card mb-3">
-          <div class="row">  
+      <div class="card mb-3">
+      <div class="row">  
       <div class="card">
                 <div class="card-header d-flex flex-between-center">
-                <a class="dropdown-item" href="<?php echo $_SESSION['url_app_home'];?>">
+                <a class="dropdown-item" href="<?php echo $_SESSION['url_app_alumno'];?>">
                 <button class="btn btn-falcon-default btn-sm" type="button"><svg class="svg-inline--fa fa-arrow-left fa-w-14" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="arrow-left" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M257.5 445.1l-22.2 22.2c-9.4 9.4-24.6 9.4-33.9 0L7 273c-9.4-9.4-9.4-24.6 0-33.9L201.4 44.7c9.4-9.4 24.6-9.4 33.9 0l22.2 22.2c9.5 9.5 9.3 25-.4 34.3L136.6 216H424c13.3 0 24 10.7 24 24v32c0 13.3-10.7 24-24 24H136.6l120.5 114.8c9.8 9.3 10 24.8.4 34.3z"></path></svg><!-- <span class="fas fa-arrow-left"></span> Font Awesome fontawesome.com --></button>
                 </a>
                 <div class="d-flex">
@@ -470,8 +262,8 @@ die();
                       </div>
                     </div>
             </div>
-          </div>         
-          
+            </div>
+          <!-- comienza-->
           <div class="card mb-3">
             <div class="bg-holder d-none d-lg-block bg-card" style="background-image:url(assets/img/icons/spot-illustrations/corner-4.png);">
             </div>
@@ -480,75 +272,54 @@ die();
             <div class="card-body position-relative">
               <div class="row">
                 <div class="col-lg-8">
-                  <h3>Empleado: <?php echo $empleado;?></h3>
-                  <p class="mb-0">Documentation and examples for opt-in styling of tables with Falcon.</p><a class="btn btn-link btn-sm ps-0 mt-2" href="https://getbootstrap.com/docs/5.3/content/tables/" target="_blank">Tables on Bootstrap<span class="fas fa-chevron-right ms-1 fs--2"></span></a>
+                  <h3><?PHP echo $curso_nombre;?></h3>
                 </div>
               </div>
             </div>
           </div>
 
-          
-          
+         
+          <div class="row g-3 mb-3">
  
 
 <!-- tabla doble empleados y cursos -->
 <div class="card mb-3">
-<table class="table table-dashboard mb-0 table-borderless fs--1 border-200">
-                      <thead class="bg-light">
-                        <tr class="text-900">
-                          <th>Video Clase</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                      <?php if ($recurso0=="videotime"){
-                            for ( $i = 0; $i < count($temavideo); $i++ ) {  
-                              $url = $_SESSION['url'].'v1/index.php/gesinpol_empleado_progreso_modulo';
-                              $parametros="empleado=".$_SESSION['idmoodle'] ."&curso=".$_REQUEST['curso']."&tema=".$_REQUEST['tema']."&modulo=".$temavideo_id[$i]['id'] ;
-                              $res_completo = resulrow($url, $parametros);
-                              $completado=0;
-                              $idm=0;
-                              $idmc=0;
-                              foreach ($res_completo["completado"] as $value) {
-                                $completado = $value['completionstate'];  
-                                $idm= $value['idm'];
-                                $idmc= $value['idmc'];
-                              }
-                              $url = $_SESSION['url'].'v1/index.php/gesinpol_empleado_sin_progreso_modulo';
-                              $parametros="curso=".$_REQUEST['curso']."&tema=".$_REQUEST['tema']."&modulo=".$temavideo_id[$i]['id'] ;
-                              $res_completo = resulrow($url, $parametros);                         
-                              
-                              foreach ($res_completo["sin_completado"] as $value) {                                
-                                $idm= $value['idm'];                                
-                              }
-                              
-                  ?>
-                        <tr class="border-bottom border-200">
-                          <td>
-                            <div class="d-flex align-items-center position-relative">
-                           <img class="rounded-1 border border-200" src="assets/img/otro_icons/video.png" alt="" width="60">
-                              <div class="flex-1 ms-3">
-                                <h6 class="mb-1 fw-semi-bold text-nowrap">
-                                  <a class="text-900 stretched-link" href="video_off.php?video=<?php echo $temavideo_id[$i]['id'];?>&curso=<?php echo $_REQUEST['curso'];?>&titulo='<?php echo $temavideo[$i]['nombre'];?>'&tema=<?php echo $_REQUEST['tema'];?>"> 
-                                    <?php echo $temavideo[$i]['nombre'];?> </a>
-                                  </h6>
-                                <p class="fw-semi-bold mb-0 text-500">Tablet</p>
-                              </div>
-                            </div>
-                          </td>                         
-                        </tr>
-                        <?php }}?> 
-                      </tbody>
-                    </table>
-          </div>
-         
-          <div class="card mb-3">
-          <?php 
-          if ($recurso0==""){ echo "No hay disponible datos en este momento.";}
-          ?>
-          <br/><br/><br/><br/><br/><br/><br/><br/><br/></div>
-          <div class="card mb-3"></div>
-          <div class="card mb-3"></div>
-          <div class="card mb-3"></div>
+<div class="row g-0">
+<?php                              
+                           for ( $i = 0; $i < count($tema); $i++ ) {   ?>
+            <div class="col-md-4 pe-md-2">
+              <div class="card mb-3">
+                <div class="card-header">
+                  <div class="row flex-between-end">
+                    <div class="col-auto align-self-center">
+                      <h5 class="mb-0" data-anchor="data-anchor" id="circular"><?php echo $tema[$i]['nombre'];?><a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="Acceder" href="area_cursos_item_new.php?tema=<?php echo $tema_id[$i]['id'];?>&curso=<?php echo $curso_enrolado;?>" style="padding-left: 0.375em;"></a></h5>
+                    </div>
+                    
+                  </div>
+                </div>
+                <div class="card-body bg-light">
+                  <div class="tab-content">
+                    <div class="tab-pane preview-tab-pane active show" role="tabpanel" aria-labelledby="tab-dom-f9f160af-450d-417a-a0d4-ff7e9eed30c6" id="dom-f9f160af-450d-417a-a0d4-ff7e9eed30c6">
+                      <div class="avatar avatar-4xl">   
+                      <div class="grid-container">
+                         <img src="assets/img/otro_icons/cajas-de-carton-industria-embalaje.jpg" alt="">                     
+                      
+                           </div>
+                      </div>
+                    </div>
+                   
+                  </div>
+                </div>
+              </div>
+            </div>
+<?php }?>
+<div class="card mb-3">
+<br/><br/><br/>
+</div>         
+<div class="card mb-3">
+<br/><br/><br/>
+</div>             
+ 
           <!--end-->
           <footer class="footer">
             <div class="row g-0 justify-content-between fs--1 mt-4 mb-3">
@@ -732,7 +503,6 @@ die();
     <script src="vendors/anchorjs/anchor.min.js"></script>
     <script src="vendors/is/is.min.js"></script>
     <script src="vendors/glightbox/glightbox.min.js"></script>
-    <script src="vendors/echarts/echarts.min.js"></script>
     <script src="vendors/fontawesome/all.min.js"></script>
     <script src="vendors/lodash/lodash.min.js"></script>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
