@@ -655,7 +655,7 @@ foreach($res_calendario["videoclase"] as $usuario) {
           
           <div class="card mb-3">
            <!-- <div class="bg-holder d-none d-lg-block bg-card" style="background-image:url(assets/img/icons/spot-illustrations/corner-4.png);">-->
-           <div class="bg-holder d-none d-lg-block bg-card">
+           <!--<div class="bg-holder d-none d-lg-block bg-card">-->
 
            </div>
             <!--/.bg-holder-->
@@ -684,7 +684,8 @@ foreach($res_calendario["videoclase"] as $usuario) {
             <div class="col-sm-6 col-xxl-3 ps-sm-2 order-xxl-1 mb-3 mb-xxl-0">
               <div class="card h-100">
                 <div class="card-header bg-light d-flex flex-between-center py-2">
-                <span class="far fa-sticky-note"></span><h6 class="mb-0">Requisitos para superar el curso</h6>
+                
+                <h6 class="mb-0"><span class="far fa-sticky-note"></span>&nbsp;&nbsp;&nbsp;Requisitos para superar el curso</h6>
                   <div class="dropdown font-sans-serif btn-reveal-trigger">
                     <button class="btn btn-link text-600 btn-sm dropdown-toggle dropdown-caret-none btn-reveal" type="button" id="dropdown-bandwidth-saved" data-bs-toggle="dropdown" data-boundary="viewport" aria-haspopup="true" aria-expanded="false"><svg class="svg-inline--fa fa-ellipsis-h fa-w-16 fs--2" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="ellipsis-h" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8 0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8 0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"></path></svg><!-- <span class="fas fa-ellipsis-h fs--2"></span> Font Awesome fontawesome.com --></button>
                     <div class="dropdown-menu dropdown-menu-end border py-2" aria-labelledby="dropdown-bandwidth-saved"><a class="dropdown-item" href="#!">View</a><a class="dropdown-item" href="#!">Export</a>
@@ -698,37 +699,64 @@ foreach($res_calendario["videoclase"] as $usuario) {
                       <div class="d-flex align-items-center">
                         <div class="avatar avatar-xl me-3">
                         <span class="far fa-sticky-note"></span>
-                      </div>
+                        </div>
                         <div class="flex-1">
-                        <h6 class="mb-0 d-flex align-items-center"><a class="text-800 stretched-link" href="#!">Completar el 100% de las actividades</a><span class="badge rounded-pill ms-2 bg-200 text-primary">38%</span></h6>
-                       </div>
+                          <h6 class="mb-0 d-flex align-items-center"><a class="text-800 stretched-link" href="#!">Completar el 100% de las actividades</a></h6>
+                        </div>
                       </div>
-                    </div>                    
+                    </div>
+                    <div class="col py-1">
+                      <div class="row flex-end-center">
+                        <div class="col-auto pe-2">
+                          <div class="fs--1 fw-semi-bold">30%</div>
+                        </div>
+                        
+                      </div>
+                    </div>
                   </div>
+
                   <div class="row g-0 align-items-center py-2 position-relative border-bottom border-200">
                     <div class="col ps-x1 py-1 position-static">
                       <div class="d-flex align-items-center">
                         <div class="avatar avatar-xl me-3">
                         <span class="far fa-sticky-note"></span>
-                      </div>
+                        </div>
                         <div class="flex-1">
-                        <h6 class="mb-0 d-flex align-items-center"><a class="text-800 stretched-link" href="#!">Superar el 100% de los ejercicios</a><span class="badge rounded-pill ms-2 bg-200 text-primary">0%</span></h6>
+                          <h6 class="mb-0 d-flex align-items-center"><a class="text-800 stretched-link" href="#!">Superar el 100% de los ejercicios</a></h6>
                         </div>
                       </div>
-                    </div>                    
+                    </div>
+                    <div class="col py-1">
+                      <div class="row flex-end-center">
+                        <div class="col-auto pe-2">
+                          <div class="fs--1 fw-semi-bold">0%</div>
+                        </div>
+                        
+                      </div>
+                    </div>
                   </div>
+
                   <div class="row g-0 align-items-center py-2 position-relative border-bottom border-200">
                     <div class="col ps-x1 py-1 position-static">
                       <div class="d-flex align-items-center">
                         <div class="avatar avatar-xl me-3">
                         <span class="far fa-sticky-note"></span>
-                      </div>
+                        </div>
                         <div class="flex-1">
-                        <h6 class="mb-0 d-flex align-items-center"><a class="text-800 stretched-link" href="#!">Superar el 100% de los ejercicios</a><span class="badge rounded-pill ms-2 bg-200 text-primary">Sin Calificar</span></h6>
+                          <h6 class="mb-0 d-flex align-items-center"><a class="text-800 stretched-link" href="#!">Obtener al menos 6.00 nota final</a></h6>
                         </div>
                       </div>
-                    </div>                    
+                    </div>
+                    <div class="col py-1">
+                      <div class="row flex-end-center">
+                        <div class="col-auto pe-2">
+                          <div class="fs--1 fw-semi-bold">Sin Calificar</div>
+                        </div>
+                        
+                      </div>
+                    </div>
                   </div>
+                  
                  <!-- --> 
                
                   
@@ -807,8 +835,8 @@ foreach($res_calendario["videoclase"] as $usuario) {
             <div class="col-sm-6 col-xxl-3 pe-sm-2 mb-3 mb-xxl-0">
               <div class="card">
                 <div class="card-header d-flex flex-between-center bg-light py-2">
-                  <span class="far fa-calendar-alt"></span>
-                  <h6 class="mb-0">Ultimo visto</h6>
+                  
+                  <h6 class="mb-0"><span class="far fa-calendar-alt"></span>&nbsp;&nbsp;&nbsp;Ultimo visto</h6>
                   <div class="dropdown font-sans-serif btn-reveal-trigger">
                     <button class="btn btn-link text-600 btn-sm dropdown-toggle dropdown-caret-none btn-reveal" type="button" id="dropdown-active-user" data-bs-toggle="dropdown" data-boundary="viewport" aria-haspopup="true" aria-expanded="false"><svg class="svg-inline--fa fa-ellipsis-h fa-w-16 fs--2" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="ellipsis-h" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8 0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8 0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"></path></svg><!-- <span class="fas fa-ellipsis-h fs--2"></span> Font Awesome fontawesome.com --></button>
                     <div class="dropdown-menu dropdown-menu-end border py-2" aria-labelledby="dropdown-active-user"><a class="dropdown-item" href="#!">View</a><a class="dropdown-item" href="#!">Export</a>
@@ -849,8 +877,8 @@ foreach($res_calendario["videoclase"] as $usuario) {
             <div class="col-sm-6 col-xxl-3 ps-sm-2 order-xxl-1 mb-3 mb-xxl-0">
               <div class="card h-100">
                 <div class="card-header bg-light d-flex flex-between-center py-2">
-                <span class="fas fa-video"></span>  
-                <h6 class="mb-0">Actividades Meet Google</h6>
+                 
+                <h6 class="mb-0"><span class="fas fa-video"></span> &nbsp;&nbsp;&nbsp;Actividades Meet Google</h6>
                   <div class="dropdown font-sans-serif btn-reveal-trigger">
                     <button class="btn btn-link text-600 btn-sm dropdown-toggle dropdown-caret-none btn-reveal" type="button" id="dropdown-bandwidth-saved" data-bs-toggle="dropdown" data-boundary="viewport" aria-haspopup="true" aria-expanded="false"><svg class="svg-inline--fa fa-ellipsis-h fa-w-16 fs--2" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="ellipsis-h" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8 0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8 0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"></path></svg><!-- <span class="fas fa-ellipsis-h fs--2"></span> Font Awesome fontawesome.com --></button>
                     <div class="dropdown-menu dropdown-menu-end border py-2" aria-labelledby="dropdown-bandwidth-saved"><a class="dropdown-item" href="#!">View</a><a class="dropdown-item" href="#!">Export</a>
@@ -920,6 +948,7 @@ foreach($res_calendario["videoclase"] as $usuario) {
             </div>
           </div>
          
+          <div class="card mb-3"><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/></div>
 
           <!--end-->
           <footer class="footer">
