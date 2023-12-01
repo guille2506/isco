@@ -672,11 +672,11 @@ foreach($res_calendario["videoclase"] as $usuario) {
          <div class="row g-0">
             <div class="col-sm-6 col-xxl-3 pe-sm-2 mb-3 mb-xxl-0">
               <div class="card">                
-                <div class="card-body py-2">
+                <div class="card-body py-2" style="padding: 0">
                
-                      <div class="grid-container">
-                <img src="assets/img/otro_icons/cajas-de-carton-industria-embalaje.jpg"  alt="" style="width: 560px;height:250px;">
-        </div>
+          <div class="grid-container">
+                <img src="assets/img/otro_icons/cajas-de-carton-industria-embalaje.jpg"  alt="" style="width: 100%;height:250px; object-fit:cover;">
+            </div>
 
                 </div>
                              </div>
@@ -934,8 +934,7 @@ foreach($res_calendario["videoclase"] as $usuario) {
               </div>
             </div>
        <!-- end  ultimo visto -->   
-		  <div class="card mb-3">
-            <div class="bg-holder d-none d-lg-block bg-card">
+          <div class="bg-holder d-none d-lg-block bg-card">
             </div>
             <!--/.bg-holder-->
 
@@ -948,7 +947,7 @@ foreach($res_calendario["videoclase"] as $usuario) {
             </div>
           </div>
          
-          <div class="card mb-3"><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/></div>
+          <!-- <div class="card mb-3"><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/></div> -->
 
           <!--end-->
           <footer class="footer">
